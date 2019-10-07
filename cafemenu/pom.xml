@@ -9,6 +9,13 @@
    <name>Cafe Menu</name>
    <url>http://www.example.com</url>
 
+   <!-- SpringBoot insrtd -->
+   <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>2.1.9.RELEASE</version>
+   </parent>
+
    <modules>
       <module>model</module>
       <module>dao</module>
@@ -28,6 +35,8 @@
    </distributionManagement>
 
    <properties>
+      <!-- SpringBoot insrtd -->
+      <spring.boot.ver>2.1.9.RELEASE</spring.boot.ver>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>
@@ -60,6 +69,19 @@
 
    <dependencyManagement>
       <dependencies>
+          <!-- SpringBoot insrtd -->
+          <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-dependencies</artifactId>
+              <type>pom</type>
+              <version>${spring.boot.ver}</version>
+              <scope>import</scope>
+          </dependency>
+          <!-- SpringBoot insrtd -->
+          <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-web</artifactId>
+          </dependency>
          <dependency>
             <groupId>com.epam.summer19</groupId>
             <artifactId>model</artifactId>

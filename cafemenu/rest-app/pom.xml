@@ -7,8 +7,7 @@
 
     <artifactId>rest-app</artifactId>
     <name>Cafe Menu Rest-app</name>
-
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <parent>
         <artifactId>cafemenu</artifactId>

@@ -6,7 +6,7 @@
 
     <artifactId>web-app</artifactId>
     <name>Cafe Menu Web-app</name>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <parent>
         <artifactId>cafemenu</artifactId>
