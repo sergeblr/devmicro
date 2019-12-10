@@ -1,8 +1,9 @@
 package com.epam.summer19.model;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.LocalDateTime;
 
 /**
@@ -10,25 +11,26 @@ import java.time.LocalDateTime;
  */
 public class OrderTest {
 
+    @Autowired
     private Order order = new Order();
 
     @Test
     public void getOrderId() {
         order.setOrderId(4);
-        Assert.assertTrue(order.getOrderId().equals(4));
+        assertTrue(order.getOrderId().equals(4));
     }
 
     @Test
     public void getOrderEmployeeId() {
         order.setOrderEmployeeId(2);
-        Assert.assertTrue(order.getOrderEmployeeId().equals(2));
+        assertTrue(order.getOrderEmployeeId().equals(2));
     }
 
     @Test
     public void getOrderDateTime() {
         LocalDateTime datetime = LocalDateTime.now();
         order.setOrderDateTime(datetime);
-        Assert.assertTrue(order.getOrderDateTime().equals(datetime));
+        assertTrue(order.getOrderDateTime().equals(datetime));
     }
 
 }

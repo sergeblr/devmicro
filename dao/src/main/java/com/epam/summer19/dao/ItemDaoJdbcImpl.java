@@ -1,7 +1,10 @@
 package com.epam.summer19.dao;
 
 import com.epam.summer19.model.Item;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -17,12 +20,15 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
+@PropertySource("classpath:sql.properties")
 @Component
 public class ItemDaoJdbcImpl implements ItemDao {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ItemDaoJdbcImpl.class);
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate1;
 
     @Value("${item.findAll}")
     private String findAllSql;
@@ -45,7 +51,6 @@ public class ItemDaoJdbcImpl implements ItemDao {
     private final static String ITEM_ID = "itemId";
     private final static String ITEM_NAME = "itemName";
     private final static String ITEM_PRICE = "itemPrice";
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate1;
 
     public ItemDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;

@@ -142,7 +142,7 @@ class OrderControllerTest {
                         .param("orderId", "1")
                         .param("orderEmployeeId", "7")
         ).andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/ordersdto"));
 
         Mockito.verify(orderService, Mockito.times(1)).update(Mockito.any(Order.class));
@@ -153,7 +153,7 @@ class OrderControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/orders/1/delete")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/ordersdto"));
 
         Mockito.verify(orderService, Mockito.times(1)).delete(Mockito.anyInt());

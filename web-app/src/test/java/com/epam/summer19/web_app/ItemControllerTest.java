@@ -76,7 +76,7 @@ class ItemControllerTest {
                         .param("itemName", "Item123")
                         .param("itemPrice", "2.00")
         ).andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/items"));
 
         Mockito.verify(itemService, Mockito.times(1)).add(Mockito.any(Item.class));
@@ -106,7 +106,7 @@ class ItemControllerTest {
                         .param("itemName", "Item11")
                         .param("itemPrice", "2.00")
         ).andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/items"));
 
         Mockito.verify(itemService, Mockito.times(1)).update(Mockito.any(Item.class));
@@ -118,7 +118,7 @@ class ItemControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/items/1/delete")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/items"));
 
         Mockito.verify(itemService, Mockito.times(1)).delete(Mockito.anyInt());

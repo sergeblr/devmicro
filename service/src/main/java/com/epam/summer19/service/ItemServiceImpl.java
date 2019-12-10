@@ -14,6 +14,7 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemServiceImpl.class);
+
     private ItemDao itemDao;
 
     public ItemServiceImpl(ItemDao itemDao) {

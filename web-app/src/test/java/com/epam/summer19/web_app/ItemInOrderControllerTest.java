@@ -50,7 +50,7 @@ class ItemInOrderControllerTest {
                         .param("iioItemPrice", "3.0")
                         .param("iioItemCount", "2")
         ).andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/order/1"));
 
         Mockito.verify(itemInOrderService, Mockito.times(1)).add(Mockito.any(ItemInOrder.class));
@@ -62,7 +62,7 @@ class ItemInOrderControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/iteminorders/1/3/delete")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/order/1"));
 
         Mockito.verify(itemInOrderService, Mockito.times(1)).delete(Mockito.anyInt(), Mockito.anyInt());

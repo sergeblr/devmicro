@@ -4,6 +4,8 @@ import com.epam.summer19.model.ItemInOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,9 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:test-dao.xml"})
 @Transactional
 @Rollback
+@SpringBootTest(classes = com.epam.summer19.dao.ItemInOrderDaoJdbcImpl.class)
+@ContextConfiguration(locations = {"classpath:test-dao.xml", "classpath:test-db.xml"})
 public class ItemInOrderDaoJdbcImplTest {
 
     private static final Integer IIO_ORDER_ID = 1;

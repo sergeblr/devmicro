@@ -1,8 +1,10 @@
 package com.epam.summer19.dao;
-
 import com.epam.summer19.model.Order;
 import com.epam.summer19.dto.OrderDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@PropertySource("classpath:sql.properties")
 @Component
 public class OrderDaoJdbcImpl implements OrderDao {
 
@@ -59,7 +62,6 @@ public class OrderDaoJdbcImpl implements OrderDao {
     private static final String DB_ORDER_ID = "order_id";
     private static final String DB_ORDER_EMPLOYEE_ID = "employee_id";
     private static final String DB_ORDER_TIME = "order_date_time";
-
 
     public OrderDaoJdbcImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;

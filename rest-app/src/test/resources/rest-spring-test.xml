@@ -7,7 +7,11 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.epam.summer19.restapp"/>
+    <context:component-scan base-package="com.epam.summer19"/>
+
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg name="dataSource" ref="dataSource"/>
+    </bean>
 
     <bean id="itemService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="com.epam.summer19.service.ItemService"/>

@@ -16,7 +16,7 @@ CREATE TABLE order_d (
 
 DROP TABLE IF EXISTS item_in_order;
 CREATE TABLE item_in_order (
-  iio_order_id DECIMAL NOT NULL,
+  iio_order_id INT NOT NULL,
   iio_item_id INT NOT NULL,
   iio_item_name VARCHAR(255) NOT NULL,
   iio_item_price DECIMAL NOT NULL,

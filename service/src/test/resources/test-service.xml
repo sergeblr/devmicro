@@ -11,6 +11,7 @@
         <constructor-arg name="dataSource" ref="dataSource"/>
     </bean>
 
+<!--
     <bean id="itemDao" class="com.epam.summer19.dao.ItemDaoJdbcImpl">
         <constructor-arg ref="namedParameterJdbcTemplate"/>
     </bean>
@@ -31,5 +32,6 @@
     <bean id="itemInOrderService" class="com.epam.summer19.service.ItemInOrderServiceImpl">
         <constructor-arg ref="itemInOrderDao"/>
     </bean>
+-->
 
 </beans>

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -43,7 +44,7 @@ public class VersionControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/version")
         ).andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(containsString("version")));
+                .andExpect(MockMvcResultMatchers.content().string(containsString("1.")));
     }
 
     /**
@@ -55,7 +56,7 @@ public class VersionControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/cafemenurest")
         ).andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(containsString("restReadme")));
+                .andExpect(MockMvcResultMatchers.content().string(containsString("CafeMenu REST API")));
     }
 
     /**
@@ -67,6 +68,6 @@ public class VersionControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/")
         ).andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string(containsString("index")));
+                .andExpect(MockMvcResultMatchers.content().string(containsString("CafeMenu rest-app")));
     }
 }

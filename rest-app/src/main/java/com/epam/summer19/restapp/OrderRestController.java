@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
-
+@CrossOrigin(origins = {"http://localhost:8084", "http://localhost:8085", "http://localhost:8086"}, maxAge = 1800)
 @RestController
 public class OrderRestController {
 

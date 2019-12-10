@@ -1,10 +1,13 @@
 package com.epam.summer19.service;
 
 import com.epam.summer19.dao.ItemDao;
+import com.epam.summer19.dao.ItemDaoJdbcImpl;
 import com.epam.summer19.model.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -17,6 +20,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@SpringBootTest(classes = {ItemDaoJdbcImpl.class, ItemServiceImpl.class})
+@ContextConfiguration(locations = {"classpath:test-service.xml", "classpath:test-db.xml"})
 public class ItemServiceImplMockTest {
 
     @Mock
@@ -62,8 +67,8 @@ public class ItemServiceImplMockTest {
     @Test
     public void testFindAll() {
         final List<Item> expectedResult = Arrays.asList();
-        when(mockItemdao.findAll()).thenReturn(Arrays.asList());
-        
+        //when(mockItemdao.findAll()).thenReturn(Arrays.asList());
+
         final List<Item> result = itemServiceImplUnderTest.findAll();
         
         assertEquals(expectedResult, result);

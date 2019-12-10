@@ -1,0 +1,73 @@
+
+<section id="item">
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card" style="max-width: 850px;">
+                    <div class="card-body">
+                        <form name="itemForm" class="needs-validation" novalidate>
+                                <input type="hidden" ng-model="item.itemId"/>
+                                <label class="form-control-label">Item name:
+                                    <input type="text" name="itemNameField"
+                                           placeholder="Super Burger"
+                                           ng-class="{'form-control is-invalid': itemForm.itemNameField.$dirty && itemForm.itemNameField.$invalid, 'form-control':true}"
+                                           ng-model="item.itemName"
+                                           ng-model-options='{ debounce: 500 }'
+                                           ng-change="isItemAlreadyInDb()"
+                                           required/>
+
+                                </label>
+                                <div ng-messages="itemForm.itemNameField.$error"
+                                     ng-show="itemForm.itemNameField.$dirty"
+                                     ng-class="{'invalid-feedback d-block': itemForm.itemNameField.$dirty && itemForm.itemNameField.$invalid, '':true}">
+                                    <div ng-message="required">Please enter name</div>
+                                    <div ng-message="itemAlreadyInDbError">Item with that name is already in DB</div>
+                                </div>
+                                <p></p>
+                                <label class="form-control-label">Item price:
+                                    <input type="text" name="itemPriceField"
+                                           ng-class="{'currency form-control is-invalid': itemForm.itemPriceField.$dirty && itemForm.itemPriceField.$invalid, 'currency form-control':true}"
+                                           placeholder="0.00"
+                                           ng-model="item.itemPrice"
+                                           ng-pattern="/^[0-9]+([.][0-9]+)?$/"
+                                           required/>
+                                </label>
+                                <div ng-messages="itemForm.itemPriceField.$error"
+                                     ng-show="itemForm.itemPriceField.$dirty"
+                                     ng-class="{'invalid-feedback d-block': itemForm.itemPriceField.$dirty && itemForm.itemPriceField.$invalid, '':true}">
+                                    <div ng-message="required">Please enter price</div>
+                                    <div ng-message="pattern">Please use digits and '.' (1 / 1.0 / 1.00)</div>
+                                </div>
+                        </form>
+                        <div>
+                            <a href="#items" class="btn btn-success"
+                               ng-click="$event.preventDefault(); submit()" ng-show="!itemForm.$invalid">
+                                {{! item.itemId ? "Create" : "Save"}} item</a>
+                            <a class="btn btn-secondary" ng-show="itemForm.$invalid">
+                                {{! item.itemId ? "Create" : "Save"}} item</a>
+                            <a href="#items" class="btn btn-danger">Cancel</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+
+<script>$(document).ready(function(){
+    $(".currency").inputmask('currency',{rightAlign: false, prefix: '' });
+});
+</script>
+
+
+
+</body>
+</html>

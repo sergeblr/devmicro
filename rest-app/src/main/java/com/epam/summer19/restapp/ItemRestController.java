@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+@CrossOrigin(origins = {"http://localhost:8084", "http://localhost:8085", "http://localhost:8086"}, maxAge = 1800)
 @RestController
 public class ItemRestController {
 
@@ -62,6 +63,10 @@ public class ItemRestController {
             itemName = itemName.substring(1, itemName.length()-1);
         itemName = itemName.replaceAll("\\\\\"","\"");
         itemName = itemName.replaceAll("\\\\\'","\'");
-        return new ResponseEntity<>(itemService.findItemByName(itemName), HttpStatus.FOUND);
+        Item foundItem = itemService.findItemByName(itemName);
+        if(foundItem != null)
+            return new ResponseEntity<>(foundItem, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

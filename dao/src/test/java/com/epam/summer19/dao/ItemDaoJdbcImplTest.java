@@ -4,11 +4,11 @@ import com.epam.summer19.model.Item;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,14 +16,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:test-db.xml", "classpath*:test-dao.xml"})
+//@DataJdbcTest
 @Transactional
 @Rollback
+@SpringBootTest(classes = {com.epam.summer19.dao.ItemDaoJdbcImpl.class})
+//@SpringBootTest(classes = {com.epam.summer19.dao.ItemDaoJdbcImpl.class, org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.class})
+@ContextConfiguration(locations = {"classpath:test-dao.xml", "classpath:test-db.xml"})
 public class ItemDaoJdbcImplTest {
 
     private static final String WRAP = "Wrap";
     private static final BigDecimal PRICE = new BigDecimal("5.0");
-    //private static final String PRICE = "Burger";
 
     @Autowired
     ItemDao itemDao;

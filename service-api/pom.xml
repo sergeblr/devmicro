@@ -13,9 +13,8 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <packaging>jar</packaging>
-
   <dependencies>
+    <!-- CafeMenu Modules: -->
     <dependency>
       <groupId>com.epam.summer19</groupId>
       <artifactId>model</artifactId>

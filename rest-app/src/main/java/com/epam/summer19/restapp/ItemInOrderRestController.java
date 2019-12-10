@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
+@CrossOrigin(origins = {"http://localhost:8084", "http://localhost:8085", "http://localhost:8086"}, maxAge = 1800)
 @RestController
 public class ItemInOrderRestController {
 

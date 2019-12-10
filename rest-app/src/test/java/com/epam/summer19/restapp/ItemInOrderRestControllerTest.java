@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,7 +37,7 @@ public class ItemInOrderRestControllerTest {
     private ItemInOrderRestController iteminorderController;
 
     @Autowired
-    private ItemInOrderService iteminorderService;
+    private ItemInOrderService itemInOrderService;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -53,8 +54,8 @@ public class ItemInOrderRestControllerTest {
 
     @AfterEach
     public void afterReset() {
-        /** Mockito.verifyNoMoreInteractions(iteminorderService);**/
-        Mockito.reset(iteminorderService);
+        /** Mockito.verifyNoMoreInteractions(itemInOrderService);**/
+        Mockito.reset(itemInOrderService);
     }
 
 
@@ -68,7 +69,7 @@ public class ItemInOrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
         ;
 
-        Mockito.verify(iteminorderService, Mockito.times(1)).add(any(ItemInOrder.class));
+        Mockito.verify(itemInOrderService, Mockito.times(1)).add(any(ItemInOrder.class));
     }
 
     @Test
@@ -82,7 +83,7 @@ public class ItemInOrderRestControllerTest {
                 .content(json)
         ).andExpect(status().isAccepted());
 
-        Mockito.verify(iteminorderService, Mockito.times(1)).update(any());
+        Mockito.verify(itemInOrderService, Mockito.times(1)).update(any());
     }
 
     @Test
@@ -90,13 +91,13 @@ public class ItemInOrderRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/iteminorders/1/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        Mockito.verify(iteminorderService, Mockito.times(1)).delete(any(),any());
+        Mockito.verify(itemInOrderService, Mockito.times(1)).delete(any(),any());
     }
 
 
     @Test
     public void testItemInOrderFindAll() throws Exception {
-        Mockito.when(iteminorderService.findAll()).thenReturn(Arrays.asList(
+        Mockito.when(itemInOrderService.findAll()).thenReturn(Arrays.asList(
                 createItemInOrder(2,2,"Item2",new BigDecimal("3.2"),3),
                 createItemInOrder(3,4,"Item4",new BigDecimal("4.2"),4)));
         mockMvc.perform(
@@ -115,12 +116,12 @@ public class ItemInOrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].iioItemPrice", Matchers.is(4.2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].iioItemCount", Matchers.is(4)))
         ;
-        Mockito.verify(iteminorderService).findAll();
+        Mockito.verify(itemInOrderService).findAll();
     }
 
     @Test
     public void testIioFindByOrderId() throws Exception {
-        Mockito.when(iteminorderService.findIioByOrderId(2))
+        Mockito.when(itemInOrderService.findIioByOrderId(2))
                 .thenReturn(new ArrayList<ItemInOrder>() {{add(createItemInOrder(2,2,
                         "Item",new BigDecimal("2.2"),2));}});
         mockMvc.perform(
@@ -134,12 +135,12 @@ public class ItemInOrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].iioItemPrice", Matchers.is(2.2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].iioItemCount", Matchers.is(2)))
         ;
-        Mockito.verify(iteminorderService, Mockito.times(1)).findIioByOrderId(2);
+        Mockito.verify(itemInOrderService, Mockito.times(1)).findIioByOrderId(2);
     }
 
     @Test
     public void testIioFindByOrderItemId() throws Exception {
-        Mockito.when(iteminorderService.findIioByOrderItemId(2,2))
+        Mockito.when(itemInOrderService.findIioByOrderItemId(2,2))
                 .thenReturn(createItemInOrder(2,2,"Item",new BigDecimal("2.2"),2));
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/iteminorders/2/2")
@@ -152,7 +153,7 @@ public class ItemInOrderRestControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.iioItemPrice", Matchers.is(2.2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.iioItemCount", Matchers.is(2)))
         ;
-        Mockito.verify(iteminorderService, Mockito.times(1)).findIioByOrderItemId(2,2);
+        Mockito.verify(itemInOrderService, Mockito.times(1)).findIioByOrderItemId(2,2);
     }
 
     private ItemInOrder createItemInOrder(int iioOrderId, int iioItemId,
