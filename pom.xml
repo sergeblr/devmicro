@@ -28,6 +28,7 @@
       <module>web-app</module>
       <module>web-app-vdn8</module>
       <module>web-app-ngjs</module>
+       <module>microrest-items</module>
    </modules>
 
    <distributionManagement>

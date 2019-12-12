@@ -27,20 +27,11 @@ public class ItemRestConsumer implements ItemService {
 
     private RestTemplate restTemplate;
 
-    /**
-     * ItemRestConsumer constructor.
-     * @param url
-     * @param restTemplate
-     */
     public ItemRestConsumer(String url, RestTemplate restTemplate) {
         this.url = url;
         this.restTemplate = restTemplate;
     }
 
-    /**
-     * findAll() - get all items
-     * @return
-     */
     @Override
     public List<Item> findAll() {
         LOGGER.debug("ItemRestConsumer: findAll()");
