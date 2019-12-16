@@ -28,7 +28,8 @@
       <module>web-app</module>
       <module>web-app-vdn8</module>
       <module>web-app-ngjs</module>
-       <module>microrest-items</module>
+      <module>microrest-items</module>
+      <module>web-app-rabbit</module>
    </modules>
 
    <distributionManagement>

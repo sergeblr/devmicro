@@ -1,9 +1,6 @@
 package com.epam.summer19.microrest_items;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
@@ -11,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Profile;
 
 //@ComponentScan(basePackages = {"com.epam.summer19"})
 @SpringBootApplication
@@ -21,39 +19,31 @@ public class MicroRestItemsApplication {
         SpringApplication.run(MicroRestItemsApplication.class, args);
     }
 
-    @Bean
-    public ItemsRabbitConsumer itemsRabbitConsumer() {
-        ItemsRabbitConsumer itemsRabbitConsumer = new ItemsRabbitConsumer();
-        return itemsRabbitConsumer;
-    }
 
-    @Bean
-    Queue queue() {
-        return new Queue("itemsqueue", false);
-    }
+        @Bean
+        public Queue queue() {
+            return new Queue("rpc.items.queue");
+        }
 
-    @Bean
-    TopicExchange exchange() {
-        return new TopicExchange("itemsexchange");
-    }
+        @Bean
+        public DirectExchange exchange() {
+            return new DirectExchange("rpc.items.exchange");
+        }
 
-    @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("itemsqueue");
-    }
+        @Bean
+        public ItemsRabbitConsumer server() {
+            return new ItemsRabbitConsumer();
+        }
 
-    @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.setQueueNames("itemsqueue");
-        container.setMessageListener(listenerAdapter);
-        return container;
-    }
 
-    @Bean
-    MessageListenerAdapter listenerAdapter(ProductMessageListener receiver) {
-        return new MessageListenerAdapter(receiver, "receiveMessage");
-    }
+
+/*        @Bean
+        public Binding binding(DirectExchange exchange,
+                               Queue queue) {
+            return BindingBuilder.bind(queue)
+                    .to(exchange)
+                    .with("rpcitemskey");
+        }*/
+
+
 }

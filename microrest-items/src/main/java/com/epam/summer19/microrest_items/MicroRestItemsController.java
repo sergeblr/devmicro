@@ -1,3 +1,4 @@
+/*
 package com.epam.summer19.microrest_items;
 
 import com.epam.summer19.model.Item;
@@ -18,24 +19,43 @@ public class MicroRestItemsController {
     @Autowired
     ItemsRabbitConsumer itemsRabbitConsumer;
 
-    @GetMapping(value = "/items")
+*/
+/*    @GetMapping(value = "/items")
     public Collection<Item> findAll() {
         LOGGER.debug("ItemRestController: findAll()");
         return itemsRabbitConsumer.getItemsList();
-            /*itemService.findAll();*/
-    }
-
+            *//*
+*/
+/*itemService.findAll();*//*
+*/
 /*
-    *//**
+    }*//*
+
+
+*/
+/*
+    *//*
+*/
+/**
      * curl -H "Content-Type: application/json" -X POST -d '{"itemName":"Something","itemPrice":"8.8"}' ##NOTNEEDED: -v http://localhost:8082/item
      *//*
-    @PostMapping(value = "/items")              *//** value = "/item" **//*
+*/
+/*
+    @PostMapping(value = "/items")              *//*
+*/
+/** value = "/item" **//*
+*/
+/*
     public void add(@RequestBody Item item) {
         LOGGER.debug("ItemRestController: add({})", item);
         itemService.add(item);
     }
 
-    @PutMapping(value = "/items")               *//** value = "/item" **//*
+    @PutMapping(value = "/items")               *//*
+*/
+/** value = "/item" **//*
+*/
+/*
     @ResponseStatus(value = HttpStatus.ACCEPTED)
     public void update(@RequestBody Item item) {
         LOGGER.debug("ItemRestController:update({})", item);
@@ -69,5 +89,6 @@ public class MicroRestItemsController {
             return new ResponseEntity<>(foundItem, HttpStatus.OK);
         else
             return new ResponseEntity<>(null, HttpStatus.OK);
-    }*/
-}
+    }*//*
+
+}*/
