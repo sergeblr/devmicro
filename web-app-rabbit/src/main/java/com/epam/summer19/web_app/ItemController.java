@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,15 @@ import java.util.List;
  */
 @Controller
 public class ItemController {
+
+    @Value("${spring.rabbitmq.template.default-receive-queue}")
+    String rabbitmqQueue;
+
+    @Value("${spring.rabbitmq.template.exchange}")
+    String rabbitmqExchange;
+
+    @Value("${spring.rabbitmq.template.routing-key}")
+    String rabbitmqRoutingKey;
 
     /**
      * Logger
@@ -47,7 +57,7 @@ public class ItemController {
     @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
-        List<Item> items = (List<Item>) template.convertSendAndReceive(exchange.getName(), "rpcitemskey", "listAllItemsParam");
+        List<Item> items = (List<Item>) template.convertSendAndReceive(rabbitmqExchange, rabbitmqRoutingKey, "listAllItemsParam");
         model.addAttribute("items", items);
         return "items";
     }

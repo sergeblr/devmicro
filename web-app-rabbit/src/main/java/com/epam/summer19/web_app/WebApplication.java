@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -23,7 +25,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+@EnableRabbit
 @SpringBootApplication
+@Configuration
 public class WebApplication {
 
     @Value("${rest.url}")
@@ -38,7 +42,10 @@ public class WebApplication {
     @Value("${rest.iteminorders}")
     String restItemInOrders;
 
-    /*RabbitMQ properties*/
+    /*RabbitMQ Props:*/
+    @Value("${spring.rabbitmq.template.exchange}")
+    String rabbitmqExchange;
+
     @Value("${spring.rabbitmq.host}")
     String rabbitmqHost;
 
@@ -51,6 +58,9 @@ public class WebApplication {
     @Value("${spring.rabbitmq.password}")
     String rabbitmqPassword;
 
+    @Value("${spring.rabbitmq.template.default-receive-queue}")
+    String rabbitmqQueue;
+
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -59,7 +69,8 @@ public class WebApplication {
         SpringApplication.run(WebApplication.class, args);
     }
 
-    /* RabbitMQ Config: */
+
+    /* RabbitMQ Config for SENDER: */
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
@@ -72,23 +83,30 @@ public class WebApplication {
 
     @Bean
     public AmqpAdmin amqpAdmin() {
-        return new RabbitAdmin(connectionFactory());
+        RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory());
+        return rabbitAdmin;
     }
 
     @Bean
     public RabbitTemplate rabbitTemplate() {
-        return new RabbitTemplate(connectionFactory());
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
+        rabbitTemplate.setReplyTimeout(60 * 1000);
+/*        rabbitTemplate.setExchange(rabbitmqExchange);*/
+        return rabbitTemplate;
+    }
+
+
+
+    @Bean
+    public Queue queue() {
+        return new Queue(rabbitmqQueue);
     }
 
     @Bean
     public DirectExchange exchange() {
-        return new DirectExchange("rpc.items.exchange");
+        return new DirectExchange(rabbitmqExchange);
     }
 
-    @Bean
-    public Queue queue() {
-        return new Queue("rpc.items.queue");
-    }
 
 
 
