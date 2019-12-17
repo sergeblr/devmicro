@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Profile;
 
-//@ComponentScan(basePackages = {"com.epam.summer19"})
+@ComponentScan(basePackages = {"com.epam.summer19"})
 @SpringBootApplication
 @ImportResource(locations = {"classpath:test-db.xml"})
 public class MicroRestItemsApplication {
