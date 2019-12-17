@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>microrest-items</artifactId>
-  <name>Cafe Menu MicroRest items</name>
+  <name>Cafe Menu RabbitMQ micro-items</name>
   <packaging>jar</packaging>
 
   <parent>

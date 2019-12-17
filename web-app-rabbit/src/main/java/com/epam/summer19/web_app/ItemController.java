@@ -35,9 +35,10 @@ public class ItemController {
     @Autowired
     ItemValidator itemValidator;
 
-    /* RabbitMQ Config: */
+    /* RabbitMQ wiring exchange: */
     @Autowired
     private RabbitTemplate template;
+
     @Autowired
     private DirectExchange exchange;
 
@@ -46,9 +47,8 @@ public class ItemController {
     @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
-
-        model.addAttribute("items", (List<Item>) template.convertSendAndReceive(exchange.getName(), "rpcitemskey", "listAllItemsParam")
-                /*itemService.findAll()*/);
+        List<Item> items = (List<Item>) template.convertSendAndReceive(exchange.getName(), "rpcitemskey", "listAllItemsParam");
+        model.addAttribute("items", items);
         return "items";
     }
 

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>web-app-rabbit</artifactId>
-    <name>Cafe Menu Web-app RabbitMQ</name>
+    <name>Cafe Menu RabbitMQ Web-app</name>
     <packaging>jar</packaging>
 
     <parent>

@@ -22,7 +22,7 @@ import java.util.Random;
 @RestController
 public class VersionController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MicroRestItemsController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VersionController.class);
 
 
     @Value("${restReadme}")
