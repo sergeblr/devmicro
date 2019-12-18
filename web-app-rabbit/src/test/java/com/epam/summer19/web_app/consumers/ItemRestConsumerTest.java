@@ -1,6 +1,7 @@
 package com.epam.summer19.web_app.consumers;
 
 import com.epam.summer19.model.Item;
+import com.epam.summer19.web_app_rabbit.consumers.ItemRestConsumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

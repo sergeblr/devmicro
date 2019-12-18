@@ -1,16 +1,11 @@
-package com.epam.summer19.web_app.consumers;
+package com.epam.summer19.web_app_rabbit.consumers;
 
 import com.epam.summer19.dto.OrderDTO;
 import com.epam.summer19.model.Order;
 import com.epam.summer19.service.OrderService;
-import com.epam.summer19.web_app.OrderController;
+import com.epam.summer19.web_app_rabbit.OrderController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;

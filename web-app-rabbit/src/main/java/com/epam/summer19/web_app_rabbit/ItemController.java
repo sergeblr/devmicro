@@ -1,10 +1,11 @@
-package com.epam.summer19.web_app;
+package com.epam.summer19.web_app_rabbit;
 
 import com.epam.summer19.model.Item;
 import com.epam.summer19.service.ItemService;
-import com.epam.summer19.web_app.validators.ItemValidator;
+import com.epam.summer19.web_app_rabbit.validators.ItemValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

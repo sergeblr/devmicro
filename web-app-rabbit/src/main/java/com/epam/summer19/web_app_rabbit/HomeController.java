@@ -1,4 +1,4 @@
-package com.epam.summer19.web_app;
+package com.epam.summer19.web_app_rabbit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

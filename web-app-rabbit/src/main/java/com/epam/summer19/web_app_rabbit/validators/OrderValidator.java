@@ -1,4 +1,4 @@
-package com.epam.summer19.web_app.validators;
+package com.epam.summer19.web_app_rabbit.validators;
 
 import com.epam.summer19.model.Order;
 import org.springframework.stereotype.Component;

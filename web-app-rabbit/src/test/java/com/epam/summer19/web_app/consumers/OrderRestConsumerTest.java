@@ -2,6 +2,7 @@ package com.epam.summer19.web_app.consumers;
 
 import com.epam.summer19.dto.OrderDTO;
 import com.epam.summer19.model.Order;
+import com.epam.summer19.web_app_rabbit.consumers.OrderRestConsumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

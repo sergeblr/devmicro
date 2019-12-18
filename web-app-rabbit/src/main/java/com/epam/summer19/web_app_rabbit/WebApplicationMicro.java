@@ -1,8 +1,8 @@
-package com.epam.summer19.web_app;
+package com.epam.summer19.web_app_rabbit;
 
-import com.epam.summer19.web_app.consumers.ItemInOrderRestConsumer;
-import com.epam.summer19.web_app.consumers.ItemRestConsumer;
-import com.epam.summer19.web_app.consumers.OrderRestConsumer;
+import com.epam.summer19.web_app_rabbit.consumers.ItemInOrderRestConsumer;
+import com.epam.summer19.web_app_rabbit.consumers.ItemRestConsumer;
+import com.epam.summer19.web_app_rabbit.consumers.OrderRestConsumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.DirectExchange;
@@ -28,7 +28,7 @@ import java.util.List;
 @EnableRabbit
 @SpringBootApplication
 @Configuration
-public class WebApplication {
+public class WebApplicationMicro {
 
     @Value("${rest.url}")
     String restUrl;
@@ -66,7 +66,7 @@ public class WebApplication {
     private ObjectMapper objectMapper;
 
     public static void main(String[] args) {
-        SpringApplication.run(WebApplication.class, args);
+        SpringApplication.run(WebApplicationMicro.class, args);
     }
 
 
@@ -106,8 +106,6 @@ public class WebApplication {
     public DirectExchange exchange() {
         return new DirectExchange(rabbitmqExchange);
     }
-
-
 
 
 

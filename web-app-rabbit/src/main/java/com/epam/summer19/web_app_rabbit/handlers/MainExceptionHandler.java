@@ -1,4 +1,4 @@
-package com.epam.summer19.web_app.handlers;
+package com.epam.summer19.web_app_rabbit.handlers;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

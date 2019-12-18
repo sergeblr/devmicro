@@ -1,8 +1,8 @@
-package com.epam.summer19.web_app;
+package com.epam.summer19.web_app_rabbit;
 
 import com.epam.summer19.model.ItemInOrder;
 import com.epam.summer19.service.ItemInOrderService;
-import com.epam.summer19.web_app.validators.ItemInOrderValidator;
+import com.epam.summer19.web_app_rabbit.validators.ItemInOrderValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

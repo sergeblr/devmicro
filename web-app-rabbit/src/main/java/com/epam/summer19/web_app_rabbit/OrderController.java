@@ -1,4 +1,4 @@
-package com.epam.summer19.web_app;
+package com.epam.summer19.web_app_rabbit;
 
 import com.epam.summer19.model.Item;
 import com.epam.summer19.dto.DateTimeFilterDTO;
@@ -7,8 +7,8 @@ import com.epam.summer19.model.Order;
 import com.epam.summer19.service.ItemInOrderService;
 import com.epam.summer19.service.ItemService;
 import com.epam.summer19.service.OrderService;
-import com.epam.summer19.web_app.validators.DateTimeFilterDTOValidator;
-import com.epam.summer19.web_app.validators.OrderValidator;
+import com.epam.summer19.web_app_rabbit.validators.DateTimeFilterDTOValidator;
+import com.epam.summer19.web_app_rabbit.validators.OrderValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
