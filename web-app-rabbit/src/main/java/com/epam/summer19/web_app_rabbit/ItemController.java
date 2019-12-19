@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Queue;
 
 
 /**
@@ -53,13 +54,18 @@ public class ItemController {
     @Autowired
     private DirectExchange exchange;
 
+    @Autowired
+    private Queue queue;
+
 
     /* RabbitMQ'ed */
     @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
-        List<Item> items = (List<Item>) template.convertSendAndReceive(rabbitmqExchange, rabbitmqRoutingKey, "listAllItemsParam");
+        List<Item> items = (List<Item>) template.convertSendAndReceive(exchange.getName(), rabbitmqRoutingKey, "listAllItemsParam");
+        LOGGER.debug("ItemController: listAllItems convertSendAndReceived called...)");
         model.addAttribute("items", items);
+        LOGGER.debug("ItemController: listAllItems model.addAttr called...");
         return "items";
     }
 

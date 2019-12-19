@@ -4,14 +4,14 @@ import com.epam.summer19.web_app_rabbit.consumers.ItemInOrderRestConsumer;
 import com.epam.summer19.web_app_rabbit.consumers.ItemRestConsumer;
 import com.epam.summer19.web_app_rabbit.consumers.OrderRestConsumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -43,9 +43,6 @@ public class WebApplicationMicro {
     String restItemInOrders;
 
     /*RabbitMQ Props:*/
-    @Value("${spring.rabbitmq.template.exchange}")
-    String rabbitmqExchange;
-
     @Value("${spring.rabbitmq.host}")
     String rabbitmqHost;
 
@@ -58,8 +55,15 @@ public class WebApplicationMicro {
     @Value("${spring.rabbitmq.password}")
     String rabbitmqPassword;
 
+    @Value("${spring.rabbitmq.template.exchange}")
+    String rabbitmqExchange;
+
     @Value("${spring.rabbitmq.template.default-receive-queue}")
     String rabbitmqQueue;
+
+    @Value("${spring.rabbitmq.template.routing-key}")
+    String rabbitmqRoutingKey;
+    /*RabbitMQ Props END*/
 
 
     @Autowired
@@ -70,7 +74,7 @@ public class WebApplicationMicro {
     }
 
 
-    /* RabbitMQ Config for SENDER: */
+    /* RabbitMQ Config SENDER Start */
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
@@ -91,15 +95,14 @@ public class WebApplicationMicro {
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setReplyTimeout(60 * 1000);
+        rabbitTemplate.setMessageConverter(jsonMessageConverter());
 /*        rabbitTemplate.setExchange(rabbitmqExchange);*/
         return rabbitTemplate;
     }
 
-
-
     @Bean
     public Queue queue() {
-        return new Queue(rabbitmqQueue);
+        return new Queue(rabbitmqQueue, true) ;
     }
 
     @Bean
@@ -107,7 +110,18 @@ public class WebApplicationMicro {
         return new DirectExchange(rabbitmqExchange);
     }
 
+    @Bean
+    Binding binding(Queue queue, DirectExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(rabbitmqRoutingKey);
+    }
 
+    @Bean
+    public MessageConverter jsonMessageConverter()
+    {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    /*RabbitMQ Config END*/
 
 
     @Bean
