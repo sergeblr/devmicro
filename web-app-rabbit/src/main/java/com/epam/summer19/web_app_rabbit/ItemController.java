@@ -58,22 +58,17 @@ public class ItemController {
     private Queue queue;
 
 
-    /* RabbitMQ'ed */
     @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
-        List<Item> items = (List<Item>) template.convertSendAndReceive(exchange.getName(), rabbitmqRoutingKey, "listAllItemsParam");
-        LOGGER.debug("ItemController: listAllItems convertSendAndReceived called...)");
+        /*RabbitMQ send MSG and wait result*/
+        List<Item> items = (List<Item>) template.convertSendAndReceive(
+                exchange.getName(), rabbitmqRoutingKey, "listAllItemsParam");
+        /*itemService.findAll();*/
         model.addAttribute("items", items);
-        LOGGER.debug("ItemController: listAllItems model.addAttr called...");
         return "items";
     }
 
-    /**
-     * GOTO Item add page
-     * @param model
-     * @return
-     */
     @GetMapping(value = "/item")
     public final String gotoAddItemPage(Model model) {
         LOGGER.debug("ItemController: gotoAddItemPage({})", model);
@@ -83,12 +78,7 @@ public class ItemController {
         return "item";
     }
 
-    /**
-     * Add item
-     * @param item
-     * @param result
-     * @return
-     */
+
     @PostMapping(value = "/item")
     public String addItem(@Valid Item item, BindingResult result) {
         LOGGER.debug("ItemController: addItem({}, {})", item, result);
@@ -96,7 +86,10 @@ public class ItemController {
         if (result.hasErrors()) {
             return "item";
         } else {
-            itemService.add(item);
+            /*RabbitMQ send item object MSG*/
+            template.convertSendAndReceive(
+                    exchange.getName(), rabbitmqRoutingKey, item);
+            /*itemService.add(item);*/
             return "redirect:/items";
         }
     }
