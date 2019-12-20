@@ -27,18 +27,28 @@ import java.util.Queue;
 @Controller
 public class ItemController {
 
-    @Value("${spring.rabbitmq.template.default-receive-queue}")
-    String rabbitmqQueue;
+    /*RabbitMQ Items props*/
+    @Value("${spring.rabbitmq.template.items.exchange}")
+    String rabbitmqItemsExchange;
 
-    @Value("${spring.rabbitmq.template.exchange}")
-    String rabbitmqExchange;
+    @Value("${spring.rabbitmq.template.items.routingkey.getallkey}")
+    String rabbitmqItemsGetAllKey;
 
-    @Value("${spring.rabbitmq.template.routing-key}")
-    String rabbitmqRoutingKey;
+    @Value("${spring.rabbitmq.template.items.routingkey.addkey}")
+    String rabbitmqItemsAddKey;
 
-    /**
-     * Logger
-     */
+    @Value("${spring.rabbitmq.template.items.routingkey.updatekey}")
+    String rabbitmqItemsUpdateKey;
+
+    @Value("${spring.rabbitmq.template.items.routingkey.deletekey}")
+    String rabbitmqItemsDeleteKey;
+
+    @Value("${spring.rabbitmq.template.items.routingkey.findbyidkey}")
+    String rabbitmqItemsFindByIdKey;
+
+    @Value("${spring.rabbitmq.template.items.routingkey.findbynamekey}")
+    String rabbitmqItemsFindByNameKey;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 
     @Autowired
@@ -52,18 +62,14 @@ public class ItemController {
     private RabbitTemplate template;
 
     @Autowired
-    private DirectExchange exchange;
-
-    @Autowired
-    private Queue queue;
-
+    private DirectExchange itemsExchange;
 
     @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
         /*RabbitMQ send MSG and wait result*/
         List<Item> items = (List<Item>) template.convertSendAndReceive(
-                exchange.getName(), rabbitmqRoutingKey, "listAllItemsParam");
+                itemsExchange.getName(), rabbitmqItemsGetAllKey);
         /*itemService.findAll();*/
         model.addAttribute("items", items);
         return "items";
@@ -78,7 +84,6 @@ public class ItemController {
         return "item";
     }
 
-
     @PostMapping(value = "/item")
     public String addItem(@Valid Item item, BindingResult result) {
         LOGGER.debug("ItemController: addItem({}, {})", item, result);
@@ -86,35 +91,26 @@ public class ItemController {
         if (result.hasErrors()) {
             return "item";
         } else {
-            /*RabbitMQ send item object MSG*/
+            /*RabbitMQ send ONE item MSG*/
             template.convertSendAndReceive(
-                    exchange.getName(), rabbitmqRoutingKey, item);
+                    itemsExchange.getName(), rabbitmqItemsAddKey, item);
             /*itemService.add(item);*/
             return "redirect:/items";
         }
     }
 
-    /**
-     * GOTO Edit item page
-     * @param id
-     * @param model
-     * @return
-     */
     @GetMapping(value = "/item/{id}")
     public final String gotoEditItemPage(@PathVariable Integer id, Model model) {
         LOGGER.debug("ItemController: gotoEditItemPage({},{})", id, model);
-        Item item = itemService.findItemById(id);
+        /*RabbitMQ find ITEM by ID MSG*/
+        Item item = (Item) template.convertSendAndReceive(
+                itemsExchange.getName(), rabbitmqItemsFindByIdKey, id);
+        /*Item item = itemService.findItemById(id);*/
         model.addAttribute("isNew", false);
         model.addAttribute("item", item);
         return "item";
     }
 
-    /**
-     * Update edited item
-     * @param item
-     * @param result
-     * @return
-     */
     @PostMapping(value = "/item/{id}")
     public String updateItem(@Valid Item item, BindingResult result) {
         LOGGER.debug("ItemController: updateItem({})", item);
@@ -122,22 +118,22 @@ public class ItemController {
         if (result.hasErrors()) {
             return "item";
         } else {
-            itemService.update(item);
+            /*RabbitMQ update item MSG*/
+            template.convertSendAndReceive(
+                    itemsExchange.getName(), rabbitmqItemsUpdateKey, item);
+            /*itemService.update(item);*/
             return "redirect:/items";
         }
 
     }
 
-    /**
-     * Delete item
-     * @param id
-     * @param model
-     * @return
-     */
     @GetMapping(value = "/items/{id}/delete")
     public final String deleteItem(@PathVariable Integer id, Model model) {
         LOGGER.debug("ItemController: deleteItem({},{})", id, model);
-        itemService.delete(id);
+        /*RabbitMQ delete item by id MSG*/
+        template.convertSendAndReceive(
+                itemsExchange.getName(), rabbitmqItemsDeleteKey, id);
+        /*itemService.delete(id);*/
         return "redirect:/items";
     }
 }

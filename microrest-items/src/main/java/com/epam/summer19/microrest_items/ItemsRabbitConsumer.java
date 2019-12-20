@@ -30,20 +30,24 @@ public class ItemsRabbitConsumer {
     @Autowired
     private Queue queue;
 
-    private List<Item> itemsList = new ArrayList<>();
 
+/*    @RabbitListener(queues = "#{queue.getName()}")
+    public List<Item> receivedItems(String param) {
+        LOGGER.debug("ItemsRabbitConsumer: Working with param: {}", param);
+        if (param.equals("listAllItemsParam")) {
+*//*            try{ Thread.sleep(100000); }
+            catch (InterruptedException ex) {Thread.currentThread().interrupt();}*//*
+            return itemService.findAll();
+        }
+        else
+            return new ArrayList<>();
+        *//*else return itemService.findItemById(Integer.parseInt(param));*//*
+    }
+}*/
 
     @RabbitListener(queues = "#{queue.getName()}")
     public List<Item> receivedItems(String param) {
         LOGGER.debug("ItemsRabbitConsumer: Working with param: {}", param);
-        if (param.equals("listAllItemsParam")) {
-            try{ Thread.sleep(100000); }
-            catch (InterruptedException ex) {Thread.currentThread().interrupt();}
-            itemsList = itemService.findAll();
-            return itemsList;
-        }
-        else
-            return new ArrayList<>();
-        /*else return itemService.findItemById(Integer.parseInt(param));*/
+            return itemService.findAll();
     }
 }

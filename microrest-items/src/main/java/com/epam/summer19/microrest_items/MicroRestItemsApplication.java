@@ -35,14 +35,27 @@ public class MicroRestItemsApplication {
     @Value("${spring.rabbitmq.password}")
     String rabbitmqPassword;
 
-    @Value("${spring.rabbitmq.template.exchange}")
-    String rabbitmqExchange;
+    /*RabbitMQ Items props*/
+    @Value("${spring.rabbitmq.template.items.exchange}")
+    String rabbitmqItemsExchange;
 
-    @Value("${spring.rabbitmq.template.default-receive-queue}")
-    String rabbitmqQueue;
+    @Value("${spring.rabbitmq.template.items.queue.getall}")
+    String rabbitmqItemsGetAllQueue;
 
-    @Value("${spring.rabbitmq.template.routing-key}")
-    String rabbitmqRoutingKey;
+    @Value("${spring.rabbitmq.template.items.queue.add}")
+    String rabbitmqItemsAddQueue;
+
+    @Value("${spring.rabbitmq.template.items.queue.update}")
+    String rabbitmqItemsUpdateQueue;
+
+    @Value("${spring.rabbitmq.template.items.queue.delete}")
+    String rabbitmqItemsDeleteQueue;
+
+    @Value("${spring.rabbitmq.template.items.queue.findbyid}")
+    String rabbitmqItemsFindByIdQueue;
+
+    @Value("${spring.rabbitmq.template.items.queue.findbyname}")
+    String rabbitmqItemsFindByNameQueue;
     /*RabbitMQ Props END*/
 
     public static void main(String[] args) {
@@ -76,18 +89,33 @@ public class MicroRestItemsApplication {
     }
 
     @Bean
-    public Queue queue() {
-        return new Queue(rabbitmqQueue, true) ;
+    public Queue itemsQueueGetAll() {
+        return new Queue(rabbitmqItemsGetAllQueue, true);
     }
 
     @Bean
-    public DirectExchange exchange() {
-        return new DirectExchange(rabbitmqExchange);
+    public Queue itemsQueueAdd() {
+        return new Queue(rabbitmqItemsAddQueue, true);
     }
 
     @Bean
-    Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(rabbitmqRoutingKey);
+    public Queue itemsQueueUpdate() {
+        return new Queue(rabbitmqItemsUpdateQueue, true);
+    }
+
+    @Bean
+    public Queue itemsQueueDelete() {
+        return new Queue(rabbitmqItemsDeleteQueue, true);
+    }
+
+    @Bean
+    public Queue itemsQueueFindById() {
+        return new Queue(rabbitmqItemsFindByIdQueue, true);
+    }
+
+    @Bean
+    public Queue itemsQueueFindByName() {
+        return new Queue(rabbitmqItemsFindByNameQueue, true);
     }
 
     @Bean
