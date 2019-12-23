@@ -5,8 +5,6 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.Profile;
 
 @ComponentScan(basePackages = {"com.epam.summer19"})
 @SpringBootApplication
@@ -36,9 +33,6 @@ public class MicroRestItemsApplication {
     String rabbitmqPassword;
 
     /*RabbitMQ Items props*/
-    @Value("${spring.rabbitmq.template.items.exchange}")
-    String rabbitmqItemsExchange;
-
     @Value("${spring.rabbitmq.template.items.queue.getall}")
     String rabbitmqItemsGetAllQueue;
 
@@ -84,7 +78,6 @@ public class MicroRestItemsApplication {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         rabbitTemplate.setReplyTimeout(60 * 1000);
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
-        /*        rabbitTemplate.setExchange(rabbitmqExchange);*/
         return rabbitTemplate;
     }
 

@@ -69,7 +69,7 @@ public class ItemController {
         LOGGER.debug("ItemController: listAllItems({})", model);
         /*RabbitMQ send MSG and wait result*/
         List<Item> items = (List<Item>) template.convertSendAndReceive(
-                itemsExchange.getName(), rabbitmqItemsGetAllKey);
+                itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
         /*itemService.findAll();*/
         model.addAttribute("items", items);
         return "items";

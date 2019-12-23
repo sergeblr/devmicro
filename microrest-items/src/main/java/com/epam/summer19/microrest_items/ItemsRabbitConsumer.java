@@ -25,10 +25,7 @@ public class ItemsRabbitConsumer {
     private RabbitTemplate template;
 
     @Autowired
-    private DirectExchange exchange;
-
-    @Autowired
-    private Queue queue;
+    private Queue itemsQueueGetAll;
 
 
 /*    @RabbitListener(queues = "#{queue.getName()}")
@@ -45,9 +42,9 @@ public class ItemsRabbitConsumer {
     }
 }*/
 
-    @RabbitListener(queues = "#{queue.getName()}")
-    public List<Item> receivedItems(String param) {
-        LOGGER.debug("ItemsRabbitConsumer: Working with param: {}", param);
+    @RabbitListener(queues = "#{itemsQueueGetAll.getName()}")
+    public List<Item> receivedItems(String msg) {
+        LOGGER.debug("ItemsRabbitConsumer: Working with param: {}", msg);
             return itemService.findAll();
     }
 }
