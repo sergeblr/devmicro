@@ -1,4 +1,4 @@
-package com.epam.summer19.microrest_items;
+package com.epam.summer19.micro_items;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
