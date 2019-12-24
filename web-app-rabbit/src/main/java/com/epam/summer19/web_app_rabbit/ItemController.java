@@ -64,6 +64,8 @@ public class ItemController {
     @Autowired
     private DirectExchange itemsExchange;
 
+    private String feedbackResult;
+
     @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
@@ -92,7 +94,7 @@ public class ItemController {
             return "item";
         } else {
             /*RabbitMQ send ONE item MSG*/
-            template.convertSendAndReceive(
+            feedbackResult = (String) template.convertSendAndReceive(
                     itemsExchange.getName(), rabbitmqItemsAddKey, item);
             /*itemService.add(item);*/
             return "redirect:/items";
@@ -119,7 +121,7 @@ public class ItemController {
             return "item";
         } else {
             /*RabbitMQ update item MSG*/
-            template.convertSendAndReceive(
+            feedbackResult = (String) template.convertSendAndReceive(
                     itemsExchange.getName(), rabbitmqItemsUpdateKey, item);
             /*itemService.update(item);*/
             return "redirect:/items";
@@ -131,7 +133,7 @@ public class ItemController {
     public final String deleteItem(@PathVariable Integer id, Model model) {
         LOGGER.debug("ItemController: deleteItem({},{})", id, model);
         /*RabbitMQ delete item by id MSG*/
-        template.convertSendAndReceive(
+        feedbackResult = (String) template.convertSendAndReceive(
                 itemsExchange.getName(), rabbitmqItemsDeleteKey, id);
         /*itemService.delete(id);*/
         return "redirect:/items";

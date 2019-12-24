@@ -2,7 +2,10 @@ package com.epam.summer19.web_app_rabbit.validators;
 
 import com.epam.summer19.model.Item;
 import com.epam.summer19.service.ItemService;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -18,6 +21,16 @@ public class ItemValidator implements Validator {
 
     @Autowired
     ItemService itemService;
+
+    /* RabbitMQ wiring exchange: */
+    @Autowired
+    private RabbitTemplate template;
+
+    @Autowired
+    private DirectExchange itemsExchange;
+
+    @Value("${spring.rabbitmq.template.items.routingkey.findbynamekey}")
+    String rabbitmqItemsFindByNameKey;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -47,8 +60,9 @@ public class ItemValidator implements Validator {
             errors.rejectValue("itemPrice", "itemPrice.negative");
         }
 
-        Item foundItem = itemService.findItemByName(item.getItemName());
-        if(foundItem != null && item.getItemId() != foundItem.getItemId()) {
+        Item foundItem = (Item) template.convertSendAndReceive(
+                itemsExchange.getName(), rabbitmqItemsFindByNameKey, item.getItemName());
+        if(foundItem.getItemId() != -1 && item.getItemId() != foundItem.getItemId()) {
             errors.rejectValue("itemName", "itemName.alreadyInDB");
         }
     }
