@@ -19,9 +19,6 @@ public class ItemValidator implements Validator {
 
     public static final int ITEM_NAME_MAX_SIZE = 255;
 
-    @Autowired
-    ItemService itemService;
-
     /* RabbitMQ wiring exchange: */
     @Autowired
     private RabbitTemplate template;

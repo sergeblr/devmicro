@@ -1,17 +1,9 @@
 package com.epam.summer19.web_app_rabbit;
 
 import com.epam.summer19.web_app_rabbit.consumers.ItemInOrderRestConsumer;
-import com.epam.summer19.web_app_rabbit.consumers.ItemRestConsumer;
 import com.epam.summer19.web_app_rabbit.consumers.OrderRestConsumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -47,12 +39,6 @@ public class WebApplicationMicro {
 
     public static void main(String[] args) {
         SpringApplication.run(WebApplicationMicro.class, args);
-    }
-
-    @Bean
-    public ItemRestConsumer itemService() {
-        ItemRestConsumer itemService = new ItemRestConsumer(restUrl+restItems, restTemplate());
-        return itemService;
     }
 
     @Bean

@@ -11,6 +11,8 @@ import com.epam.summer19.web_app_rabbit.validators.DateTimeFilterDTOValidator;
 import com.epam.summer19.web_app_rabbit.validators.OrderValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,19 +36,20 @@ public class OrderController {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
     @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private ItemInOrderService itemInOrderService;
-
-    @Autowired
-    private ItemService itemService;
-
-    @Autowired
     OrderValidator orderValidator;
 
     @Autowired
     DateTimeFilterDTOValidator dateTimeFilterDTOValidator;
+
+    /* RabbitMQ wiring exchange: */
+    @Autowired
+    private RabbitTemplate template;
+
+    @Autowired
+    private DirectExchange itemsExchange;
+
+    @Autowired
+    private DirectExchange ordersExchange;
 
     @ModelAttribute("dateTimeFilterDTO")
     DateTimeFilterDTO defDateTime() {
@@ -144,7 +147,8 @@ public class OrderController {
         LOGGER.debug("OrderController: gotoEditOrderPage({})", id);
         Order order = orderService.findOrderById(id);
         List<ItemInOrder> iteminorders = itemInOrderService.findIioByOrderId(id);
-        List<Item> items =  itemService.findAll();
+        List<Item> items =  (List<Item>) template.convertSendAndReceive(
+                itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
         ItemInOrder iteminorderin = new ItemInOrder();
         model.addAttribute("isNew", false);
         model.addAttribute("iteminorders", iteminorders);
