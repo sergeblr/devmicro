@@ -17,9 +17,9 @@
     <!--MySQL DB ONE for all RabbitMQ microservices !!!!!!!-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://db4free.net:3306/cafemenutest"/>
-        <property name="username" value="cmuser"/>
-        <property name="password" value="cmpassword4"/>
+        <property name="url" value="jdbc:mysql://86.57.176.80:3306/cmdb"/>
+        <property name="username" value="muser"/>
+        <property name="password" value="mysqlxpwd4"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

@@ -1,21 +1,21 @@
-DROP TABLE IF EXISTS item;
-CREATE TABLE item (
+/*DROP TABLE IF EXISTS item;*/
+CREATE TABLE IF NOT EXISTS item (
   item_id INT NOT NULL AUTO_INCREMENT,
   item_name VARCHAR(255) NOT NULL UNIQUE,
   item_price DECIMAL NOT NULL,
   PRIMARY KEY (item_id)
 );
 
-DROP TABLE IF EXISTS order_d;
-CREATE TABLE order_d (
+/*DROP TABLE IF EXISTS order_d;*/
+CREATE TABLE IF NOT EXISTS order_d (
   order_id INT NOT NULL AUTO_INCREMENT,
   employee_id INT NOT NULL,
   order_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (order_id)
 );
 
-DROP TABLE IF EXISTS item_in_order;
-CREATE TABLE item_in_order (
+/*DROP TABLE IF EXISTS item_in_order;*/
+CREATE TABLE IF NOT EXISTS item_in_order (
   iio_order_id INT NOT NULL,
   iio_item_id INT NOT NULL,
   iio_item_name VARCHAR(255) NOT NULL,
