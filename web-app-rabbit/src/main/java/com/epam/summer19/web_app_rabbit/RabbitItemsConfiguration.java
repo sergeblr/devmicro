@@ -92,32 +92,32 @@ public class RabbitItemsConfiguration {
     }
 
     @Bean
-    Binding bindingQueueGetAll(DirectExchange itemsExchange) {
+    Binding bindingQueueItemsGetAll(DirectExchange itemsExchange) {
         return BindingBuilder.bind(itemsQueueGetAll()).to(itemsExchange).with(rabbitmqItemsGetAllKey);
     }
 
     @Bean
-    Binding bindingQueueAdd(DirectExchange itemsExchange) {
+    Binding bindingQueueItemsAdd(DirectExchange itemsExchange) {
         return BindingBuilder.bind(itemsQueueAdd()).to(itemsExchange).with(rabbitmqItemsAddKey);
     }
 
     @Bean
-    Binding bindingQueueUpdate(DirectExchange itemsExchange) {
+    Binding bindingQueueItemsUpdate(DirectExchange itemsExchange) {
         return BindingBuilder.bind(itemsQueueUpdate()).to(itemsExchange).with(rabbitmqItemsUpdateKey);
     }
 
     @Bean
-    Binding bindingQueueDelete(DirectExchange itemsExchange) {
+    Binding bindingQueueItemsDelete(DirectExchange itemsExchange) {
         return BindingBuilder.bind(itemsQueueDelete()).to(itemsExchange).with(rabbitmqItemsDeleteKey);
     }
 
     @Bean
-    Binding bindingQueueFindById(DirectExchange itemsExchange) {
+    Binding bindingQueueItemsFindById(DirectExchange itemsExchange) {
         return BindingBuilder.bind(itemsQueueFindById()).to(itemsExchange).with(rabbitmqItemsFindByIdKey);
     }
 
     @Bean
-    Binding bindingQueueFindByName(DirectExchange itemsExchange) {
+    Binding bindingQueueItemsFindByName(DirectExchange itemsExchange) {
         return BindingBuilder.bind(itemsQueueFindByName()).to(itemsExchange).with(rabbitmqItemsFindByNameKey);
     }
 

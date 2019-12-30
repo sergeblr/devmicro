@@ -27,11 +27,8 @@ public class RabbitOrdersConfiguration {
     @Value("${spring.rabbitmq.template.orders.queue.delete}")
     String rabbitmqOrdersDeleteQueue;
 
-    @Value("${spring.rabbitmq.template.orders.queue.postdtobydatetime}")
-    String rabbitmqOrdersPostDtoByDateTimeQueue;
-
-    @Value("${spring.rabbitmq.template.orders.queue.dtofilterreset}")
-    String rabbitmqOrdersDtoFilterResetQueue;
+    @Value("${spring.rabbitmq.template.orders.queue.findbyid}")
+    String rabbitmqOrdersFindByIdQueue;
 
     @Value("${spring.rabbitmq.template.orders.routingkey.getalldtobydatetimekey}")
     String rabbitmqOrdersGetAllDtoByDateTimeKey;
@@ -45,11 +42,9 @@ public class RabbitOrdersConfiguration {
     @Value("${spring.rabbitmq.template.orders.routingkey.deletekey}")
     String rabbitmqOrdersDeleteKey;
 
-    @Value("${spring.rabbitmq.template.orders.routingkey.postdtobydatetimekey}")
-    String rabbitmqOrdersPostDtoByDateTimeKey;
+    @Value("${spring.rabbitmq.template.orders.routingkey.findbyidkey}")
+    String rabbitmqOrdersFindByIdKey;
 
-    @Value("${spring.rabbitmq.template.orders.routingkey.dtofilterresetkey}")
-    String rabbitmqOrdersDtoFilterResetKey;
     /*RabbitMQ Props END*/
 
     /*RabbitMQ Items settings (exchange, queue & bindings create)*/
@@ -79,46 +74,34 @@ public class RabbitOrdersConfiguration {
     }
 
     @Bean
-    public Queue ordersQueuePostDtoByDateTime() {
-        return new Queue(rabbitmqOrdersPostDtoByDateTimeQueue, true);
+    public Queue ordersQueueFindById() {
+        return new Queue(rabbitmqOrdersFindByIdQueue, true);
     }
 
     @Bean
-    public Queue ordersQueueDtoFilterReset() {
-        return new Queue(rabbitmqOrdersDtoFilterResetQueue, true);
-    }
-
-    @Bean
-    Binding bindingQueueGetAllDtoByDateTime(DirectExchange ordersExchange) {
+    Binding bindingQueueOrdersGetAllDtoByDateTime(DirectExchange ordersExchange) {
         return BindingBuilder.bind(ordersQueueGetAllDtoByDateTime()).to(ordersExchange)
                 .with(rabbitmqOrdersGetAllDtoByDateTimeKey);
     }
 
     @Bean
-    Binding bindingQueueAdd(DirectExchange ordersExchange) {
+    Binding bindingOrdersQueueAdd(DirectExchange ordersExchange) {
         return BindingBuilder.bind(ordersQueueAdd()).to(ordersExchange).with(rabbitmqOrdersAddKey);
     }
 
     @Bean
-    Binding bindingQueueUpdate(DirectExchange ordersExchange) {
+    Binding bindingOrdersQueueUpdate(DirectExchange ordersExchange) {
         return BindingBuilder.bind(ordersQueueUpdate()).to(ordersExchange).with(rabbitmqOrdersUpdateKey);
     }
 
     @Bean
-    Binding bindingQueueDelete(DirectExchange ordersExchange) {
+    Binding bindingOrdersQueueDelete(DirectExchange ordersExchange) {
         return BindingBuilder.bind(ordersQueueDelete()).to(ordersExchange).with(rabbitmqOrdersDeleteKey);
     }
 
     @Bean
-    Binding bindingQueuePostDtoByDateTime(DirectExchange ordersExchange) {
-        return BindingBuilder.bind(ordersQueuePostDtoByDateTime()).to(ordersExchange)
-                .with(rabbitmqOrdersPostDtoByDateTimeKey);
-    }
-
-    @Bean
-    Binding bindingQueueDtoFilterReset(DirectExchange ordersExchange) {
-        return BindingBuilder.bind(ordersQueueDtoFilterReset()).to(ordersExchange)
-                .with(rabbitmqOrdersDtoFilterResetKey);
+    Binding bindingOrdersQueueFindById(DirectExchange ordersExchange) {
+        return BindingBuilder.bind(ordersQueueFindById()).to(ordersExchange).with(rabbitmqOrdersFindByIdKey);
     }
 
 }

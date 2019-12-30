@@ -17,7 +17,7 @@ import org.springframework.context.annotation.ImportResource;
 @ComponentScan(basePackages = {"com.epam.summer19"})
 @SpringBootApplication
 @ImportResource(locations = {"classpath:test-db.xml"})
-public class MicroRestItemsApplication {
+public class MicroItemsApplication {
 
     /*RabbitMQ Props:*/
     @Value("${spring.rabbitmq.host}")
@@ -33,6 +33,7 @@ public class MicroRestItemsApplication {
     String rabbitmqPassword;
 
     /*RabbitMQ Items props*/
+
     @Value("${spring.rabbitmq.template.items.queue.getall}")
     String rabbitmqItemsGetAllQueue;
 
@@ -53,7 +54,7 @@ public class MicroRestItemsApplication {
     /*RabbitMQ Props END*/
 
     public static void main(String[] args) {
-        SpringApplication.run(MicroRestItemsApplication.class, args);
+        SpringApplication.run(MicroItemsApplication.class, args);
     }
 
     /* RabbitMQ Config SENDER Start */

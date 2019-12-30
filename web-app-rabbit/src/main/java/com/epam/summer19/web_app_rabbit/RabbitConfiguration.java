@@ -1,5 +1,6 @@
 package com.epam.summer19.web_app_rabbit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -26,6 +27,10 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.password}")
     String rabbitmqPassword;
 
+    @Value("${spring.rabbitmq.timeout}")
+    String rabbitmqTimeout;
+
+
     /* RabbitMQ Config SENDER Start */
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -46,7 +51,7 @@ public class RabbitConfiguration {
     @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-        rabbitTemplate.setReplyTimeout(60 * 1000);
+        rabbitTemplate.setReplyTimeout(Integer.parseInt(rabbitmqTimeout));
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
         /*        rabbitTemplate.setExchange(rabbitmqExchange);*/
         return rabbitTemplate;
@@ -55,7 +60,8 @@ public class RabbitConfiguration {
     @Bean
     public MessageConverter jsonMessageConverter()
     {
-        return new Jackson2JsonMessageConverter();
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        return new Jackson2JsonMessageConverter(mapper);
     }
 
 }

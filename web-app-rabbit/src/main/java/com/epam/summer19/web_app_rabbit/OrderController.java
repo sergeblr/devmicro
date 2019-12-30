@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,9 +25,11 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-/**
- * Order controller
- */
+
+/** !!!!!!!!!!!!!!!!
+ * Order controller ALMOST NOT touched for RabbitMQ changes, all RabbitMQ logic implemented in OrderConsumerToMicro as OrderService bean
+ * ONLY Item RabbitMQ messaging used there (because logic implemented in ItemController instead Consumer
+ !!!!!!!!!!!!!!!!! */
 @Controller
 @SessionAttributes("dateTimeFilterDTO")
 public class OrderController {
@@ -36,20 +39,26 @@ public class OrderController {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private ItemInOrderService itemInOrderService;
+
+    @Autowired
     OrderValidator orderValidator;
 
     @Autowired
     DateTimeFilterDTOValidator dateTimeFilterDTOValidator;
 
-    /* RabbitMQ wiring exchange: */
+    /* RabbitMQ wiring exchange ONLY FOR ITEMS one request: */
     @Autowired
     private RabbitTemplate template;
 
     @Autowired
     private DirectExchange itemsExchange;
 
-    @Autowired
-    private DirectExchange ordersExchange;
+    @Value("${spring.rabbitmq.template.items.routingkey.getallkey}")
+    String rabbitmqItemsGetAllKey;
 
     @ModelAttribute("dateTimeFilterDTO")
     DateTimeFilterDTO defDateTime() {
@@ -147,6 +156,7 @@ public class OrderController {
         LOGGER.debug("OrderController: gotoEditOrderPage({})", id);
         Order order = orderService.findOrderById(id);
         List<ItemInOrder> iteminorders = itemInOrderService.findIioByOrderId(id);
+        /* !!! RabbitMQ ITEMS template request there (because itemService is not implemented as RabbitMQ CONSUMER) !!! */
         List<Item> items =  (List<Item>) template.convertSendAndReceive(
                 itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
         ItemInOrder iteminorderin = new ItemInOrder();
@@ -188,6 +198,5 @@ public class OrderController {
         orderService.delete(id);
         return "redirect:/ordersdto";
     }
-
 
 }

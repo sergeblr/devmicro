@@ -29,6 +29,8 @@
       <module>web-app-vdn8</module>
       <module>web-app-ngjs</module>
       <module>micro-items</module>
+      <module>micro-orders</module>
+      <module>micro-iteminorders</module>
       <module>web-app-rabbit</module>
    </modules>
 

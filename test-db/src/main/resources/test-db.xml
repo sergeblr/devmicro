@@ -7,11 +7,19 @@
        http://www.springframework.org/schema/jdbc
        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<!--    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
         <property name="url" value="jdbc:h2:mem:test_db;MODE=MYSQL;DB_CLOSE_DELAY=-1"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>
+    </bean>-->
+
+    <!--MySQL DB ONE for all RabbitMQ microservices !!!!!!!-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://db4free.net:3306/cafemenutest"/>
+        <property name="username" value="cmuser"/>
+        <property name="password" value="cmpassword4"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

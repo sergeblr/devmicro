@@ -18,16 +18,14 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-/**
- * Item controller
- */
+/** !!!!!!!!!!!!!!!!!!!
+* As example ItemConsumer removed, RabbitMQ code implemented directly THERE in ItemController.java (without consumer SUBlayer)
+* !!!!!!!!!!!!!!!!!!!
+*/
 @Controller
 public class ItemController {
 
     /*RabbitMQ Items props*/
-    @Value("${spring.rabbitmq.template.items.exchange}")
-    String rabbitmqItemsExchange;
-
     @Value("${spring.rabbitmq.template.items.routingkey.getallkey}")
     String rabbitmqItemsGetAllKey;
 
