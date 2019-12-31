@@ -75,8 +75,13 @@ public class OrderDaoJdbcImpl implements OrderDao {
 
         KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(addSql, parameters, generatedKeyHolder);
-        order.setOrderId((Integer)generatedKeyHolder.getKeys().get(DB_ORDER_ID));
-        order.setOrderDateTime(((Timestamp)generatedKeyHolder.getKeys().get(DB_ORDER_TIME)).toLocalDateTime());
+        /*RabbitMQ for MySQL external DB changed: (DB returns only ONE KEY (not keys) ???? */
+        if(generatedKeyHolder.getKeys().size() > 1) {
+            order.setOrderId((Integer) generatedKeyHolder.getKeys().get(DB_ORDER_ID));
+            order.setOrderDateTime(((Timestamp) generatedKeyHolder.getKeys().get(DB_ORDER_TIME)).toLocalDateTime());
+        } else {
+            order.setOrderId(generatedKeyHolder.getKey().intValue());
+        }
 
         return order;
     }
