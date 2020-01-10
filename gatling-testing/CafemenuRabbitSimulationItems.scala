@@ -14,18 +14,18 @@ class CafemenuRabbitSimItems extends Simulation {
 
 	val base_url = "http://127.0.0.1:8090"
 
-	val pause_time = 5		// pause between operations in milliseconds
-	val scn_repeats = 1		// Number of scenario repeats
-
-	val new_item_name_prefix = "SomeItem"		// ItemName prefix
-	val new_item_name_sufchars = 5					// ItemName postfix RANDOM number of chars
-	val new_item_price_random_limit = 100		// ItemPrice random price
-	val new_item_price_coin_fix = 12
+	val new_item_name_random_map = Iterator.continually(
+		Map("rand_item_name" -> ("SomeItem " + Random.alphanumeric.take(10).mkString )))	// ItemName postfix RANDOM number of chars
+	val new_item_price_random_map = Iterator.continually(
+		Map("rand_item_price" -> Random.nextInt(100)))
+	/*val new_item_price_coin_fix = 12*/
 
 	// SetUp SIMULATION:
-	val setup_users_start_rate = 5
-	val setup_users_end_rate = 50
-	val setup_duration = 30
+	val pause_time = 10		// pause between operations in milliseconds
+	val scn_repeats = 1		// Number of scenario repeats
+	val setup_users_start_rate = 1	// MIN users INJECTED in ONE second
+	val setup_users_end_rate = 50		// MAX users INJECTED in ONE second
+	val setup_duration = 30					// Total duration in seconds
 
 
 
@@ -54,26 +54,30 @@ class CafemenuRabbitSimItems extends Simulation {
 	val scn = scenario("CafemenuRabbitSimulationItems")
 		// REPEATS:
   	.repeat(scn_repeats) {
+			feed(new_item_name_random_map)
+			.feed(new_item_price_random_map)
 
 			// ### ITEM:
-			// Goto AddItem page, then adding some new item
-			 exec(http("request_AddItemPage")
+			// Goto AddItem page, then adding new item
+			 .exec(http("request_AddItemPage")
 				.get("/item")
 				.headers(headers_0))
-				.pause(pause_time * 2 milliseconds)
-				.exec(http("request_PostItem")
-					.post("/item")
-					.headers(headers_2)
-					.formParam("itemId", "")
-					.formParam("itemName", new_item_name_prefix + Random.nextString(new_item_name_sufchars))
-					.formParam("itemPrice", Random.nextInt(new_item_price_random_limit).toString + "."+new_item_price_coin_fix.toString))
-				.pause(pause_time * 2 milliseconds)
+			 .pause(pause_time milliseconds)
+			 .exec(http("request_PostItem")
+						.post("/item")
+						.headers(headers_2)
+						.formParam("itemId", "")
+						.formParam("itemName", "${rand_item_name}")
+						.formParam("itemPrice", "${rand_item_price}")
+				)
+				.pause(pause_time milliseconds)
 
 				// Loading Items...
 				.exec(http("request_items")
 					.get("/items")
 					.headers(headers_0))
-				.pause(pause_time * 2 milliseconds)
+				.pause(pause_time milliseconds)
+
 		}
 
 	//setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
