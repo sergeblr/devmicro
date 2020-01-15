@@ -12,7 +12,7 @@ import io.gatling.jdbc.Predef._
 //   Load Items;
 class CafemenuRabbitSimItems extends Simulation {
 
-	val base_url = "http://127.0.0.1:8090"
+	val base_url = "http://localhost:8090"
 
 	val new_item_name_random_map = Iterator.continually(
 		Map("rand_item_name" -> ("SomeItem " + Random.alphanumeric.take(10).mkString )))	// ItemName postfix RANDOM number of chars
@@ -23,9 +23,10 @@ class CafemenuRabbitSimItems extends Simulation {
 	// SetUp SIMULATION:
 	val pause_time = 10		// pause between operations in milliseconds
 	val scn_repeats = 1		// Number of scenario repeats
-	val setup_users_start_rate = 1	// MIN users INJECTED in ONE second
+	val setup_users_start_rate = 10	// MIN users INJECTED in ONE second
 	val setup_users_end_rate = 50		// MAX users INJECTED in ONE second
-	val setup_duration = 30					// Total duration in seconds
+	val setup_duration = 30
+	// Total duration in seconds
 
 
 
@@ -83,5 +84,8 @@ class CafemenuRabbitSimItems extends Simulation {
 	//setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
 
 	// SetUp scenario: Inject users from StartRate to EndRate EACH SECOND during Duration
-	setUp(scn.inject(rampUsersPerSec(setup_users_start_rate) to (setup_users_end_rate) during (setup_duration))).protocols(httpProtocol)
+/*	setUp(scn.inject(rampUsersPerSec(setup_users_start_rate) to (setup_users_end_rate) during (setup_duration))).protocols(httpProtocol)*/
+/*	setUp(scn.inject(rampUsers(3000) during (10 seconds))).protocols(httpProtocol)*/					// 3000 users OVERALL during 10 seconds
+	setUp(scn.inject(constantUsersPerSec(40) during (10 seconds))).protocols(httpProtocol)			// 100 users EACH second during 10 seconds
+
 }
