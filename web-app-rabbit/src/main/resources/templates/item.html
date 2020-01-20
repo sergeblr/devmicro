@@ -58,8 +58,10 @@
 </body>
 </html>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+<script src="../..js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script src="../..js/jquery.inputmask.bundle.min.js"
+        th:src="@{/js/jquery.inputmask.bundle.min.js}"></script>
 
 <script>$(document).ready(function(){
     $(".currency").inputmask('currency',{rightAlign: false, prefix: '' });
