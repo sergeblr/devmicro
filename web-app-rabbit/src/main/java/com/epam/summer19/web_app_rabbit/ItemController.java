@@ -58,6 +58,18 @@ public class ItemController {
 
     private String feedbackResult;
 
+    /*  ###ORIGINAL  @GetMapping(value = "/items")
+    public final String listAllItems(Model model) {
+        LOGGER.debug("ItemController: listAllItems({})", model);
+        *//*RabbitMQ send MSG and wait result*//*
+        List<Item> items = (List<Item>) template.convertSendAndReceive(
+                itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
+        *//*itemService.findAll();*//*
+        model.addAttribute("items", items);
+        return "items";
+    }*/
+
+    /*  ###WebFlux'ed ! */
     @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
