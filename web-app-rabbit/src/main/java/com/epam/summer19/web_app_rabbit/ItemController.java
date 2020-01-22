@@ -14,6 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable;
+import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -58,15 +63,29 @@ public class ItemController {
 
     private String feedbackResult;
 
-    @GetMapping(value = "/items")
+/*  ### ORIGINAL MICRO*/
+/*    @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
-        /*RabbitMQ send MSG and wait result*/
+*//*        RabbitMQ send MSG and wait result*//*
         List<Item> items = (List<Item>) template.convertSendAndReceive(
                 itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
-        /*itemService.findAll();*/
+*//*        itemService.findAll();*//*
         model.addAttribute("items", items);
         return "items";
+    }*/
+
+    /* ### WebFlux'ed */
+    @GetMapping(value = "/items")
+    public final Mono<String> listAllItems(Model model) {
+        LOGGER.debug("ItemController: listAllItems({})", model);
+        /*RabbitMQ send MSG and wait result*/
+        IReactiveDataDriverContextVariable  reactiveItems = new ReactiveDataDriverContextVariable(
+                (List<Item>) template.convertSendAndReceive(
+                        itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg"), 1
+        );
+        model.addAttribute("items", reactiveItems);
+        return Mono.just("items");
     }
 
     @GetMapping(value = "/item")
