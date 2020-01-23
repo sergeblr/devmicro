@@ -5,6 +5,7 @@ import com.epam.summer19.web_app_rabbit.validators.ItemValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.rabbit.AsyncRabbitTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,29 +65,31 @@ public class ItemController {
     private String feedbackResult;
 
 /*  ### ORIGINAL MICRO*/
-/*    @GetMapping(value = "/items")
+    @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
-*//*        RabbitMQ send MSG and wait result*//*
+        /*RabbitMQ send MSG and wait result*/
         List<Item> items = (List<Item>) template.convertSendAndReceive(
                 itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
-*//*        itemService.findAll();*//*
+        /*itemService.findAll();*/
         model.addAttribute("items", items);
         return "items";
-    }*/
+    }
 
     /* ### WebFlux'ed */
-    @GetMapping(value = "/items")
+/*    @GetMapping(value = "/items")
     public final Mono<String> listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
-        /*RabbitMQ send MSG and wait result*/
-        IReactiveDataDriverContextVariable  reactiveItems = new ReactiveDataDriverContextVariable(
+        *//*RabbitMQ send MSG and wait result*//*
+        IReactiveDataDriverContextVariable reactiveItems = new ReactiveDataDriverContextVariable(
                 (List<Item>) template.convertSendAndReceive(
                         itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg"), 1
         );
         model.addAttribute("items", reactiveItems);
+
+        AsyncRabbitTemplate
         return Mono.just("items");
-    }
+    }*/
 
     @GetMapping(value = "/item")
     public final String gotoAddItemPage(Model model) {

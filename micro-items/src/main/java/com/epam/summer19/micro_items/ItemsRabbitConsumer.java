@@ -28,6 +28,8 @@ public class ItemsRabbitConsumer {
     public List<Item> itemsGetAll(String msg) {
         LOGGER.debug("ItemsRabbitConsumer: Working with param: {}", msg);
         try {
+            Thread.sleep(3000);
+            LOGGER.debug("SLEEP ############################################################");
             List<Item> items = itemService.findAll();
             LOGGER.debug("ItemsRabbitConsumer: Successfully");
             return items;
