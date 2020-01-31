@@ -2,6 +2,7 @@ package com.epam.summer19.web_app_rabbit;
 
 import com.epam.summer19.model.Item;
 import com.epam.summer19.web_app_rabbit.validators.ItemValidator;
+import com.rabbitmq.client.Delivery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.DirectExchange;
@@ -19,6 +20,9 @@ import org.thymeleaf.spring5.context.webflux.IReactiveDataDriverContextVariable;
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.rabbitmq.RabbitFlux;
+import reactor.rabbitmq.RpcClient;
+import reactor.rabbitmq.Sender;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -64,15 +68,40 @@ public class ItemController {
 
     private String feedbackResult;
 
-/*  ### ORIGINAL MICRO*/
+/*  ### ORIGINAL MICRO*//*
+    @GetMapping(value = "/items")
+    public final String listAllItems(Model model) {
+        LOGGER.debug("ItemController: listAllItems({})", model);
+        *//*RabbitMQ send MSG and wait result*//*
+        List<Item> items = (List<Item>) template.convertSendAndReceive(
+                itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
+        *//*itemService.findAll();*//*
+        model.addAttribute("items", items);
+        return "items";
+    }*/
+
+    /*  ### ORIGINAL MICRO*/
     @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
         /*RabbitMQ send MSG and wait result*/
-        List<Item> items = (List<Item>) template.convertSendAndReceive(
-                itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
+
+        Sender itemsSender = RabbitFlux.createSender();
+        RpcClient itemsRpcClient = itemsSender.rpcClient(itemsExchange.getName(), rabbitmqItemsGetAllKey);
+        Mono<Delivery> itemsReply = itemsRpcClient.rpc(Mono.just(
+                new RpcClient.RpcRequest("\"msg\"".getBytes())
+        ));
+        itemsRpcClient.close();
+
+
+          //List<Item> items = (List<Item>) template.convertSendAndReceive(
+          //        itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
         /*itemService.findAll();*/
-        model.addAttribute("items", items);
+
+        model.addAttribute("items", new ReactiveDataDriverContextVariable(
+                itemsReply.map(Delivery).flatMapMany(Flux::fromIterable),
+                1
+        ));
         return "items";
     }
 

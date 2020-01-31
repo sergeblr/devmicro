@@ -54,6 +54,11 @@
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.projectreactor.rabbitmq</groupId>
+            <artifactId>reactor-rabbitmq</artifactId>
+            <version>1.4.1.RELEASE</version>
+        </dependency>
 
         <!-- WebFlux -->
         <dependency>
