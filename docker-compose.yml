@@ -1,23 +1,33 @@
 version: '3'
 services:
 
+  cafemenu:
+   container_name: cafemenu-c
+   build: .
+
   micro-items:
    container_name: micro-items-c
    build: micro-items/
    ports:
     - "8091:8091"
+   depends_on:
+    - cafemenu
 
   micro-orders:
    container_name: micro-orders-c
    build: micro-orders/
    ports:
     - "8092:8092"
+   depends_on:
+    - cafemenu
 
   micro-iteminorders:
    container_name: micro-iteminorders-c
    build: micro-iteminorders/
    ports:
     - "8093:8093"
+   depends_on:
+    - cafemenu
 
   web-app-rabbit:
    container_name: web-app-rabbit-c
