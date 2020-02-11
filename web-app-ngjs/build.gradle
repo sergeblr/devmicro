@@ -1,0 +1,9 @@
+
+description = 'Cafe Menu Web-app AngularJS'
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version:'2.2.2.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.2.2.RELEASE'
+  compile project(':model')
+  compile project(':service-api')
+    runtime group: 'org.springframework.boot', name: 'spring-boot-devtools', version:'2.2.4.RELEASE'
+}

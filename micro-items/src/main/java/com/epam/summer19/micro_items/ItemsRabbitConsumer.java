@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,18 @@ public class ItemsRabbitConsumer {
     @Value("${spring.rabbitmq.template.items.successfulmsg}")
     String rabbitmqItemsSuccessfulMsg;
 
+    /* WebFluxed: !!! */
     @RabbitListener(queues = "#{itemsQueueGetAll.getName()}")
     public List<Item> itemsGetAll(String msg) {
+/*    public Flux<List<Item>> itemsGetAll(String msg) {*/
         LOGGER.debug("ItemsRabbitConsumer: Working with param: {}", msg);
         try {
-            Thread.sleep(3000);
-            LOGGER.debug("SLEEP ############################################################");
+            //Thread.sleep(2000);
+            LOGGER.debug("SLEEP ###");
             List<Item> items = itemService.findAll();
+/*            List<Item> baseItems = itemService.findAll();
+            Flux<List<Item>> items = Flux.just(baseItems);*/
+
             LOGGER.debug("ItemsRabbitConsumer: Successfully");
             return items;
         }
@@ -38,6 +44,8 @@ public class ItemsRabbitConsumer {
         {
             LOGGER.error(ex.toString());
             return new ArrayList<>();
+/*            return Flux.just(new ArrayList<>());*/
+
         }
     }
 

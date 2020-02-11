@@ -42,6 +42,12 @@
       <version>2.2.2.RELEASE</version>
     </dependency>
 
+    <!-- WebFlux -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>

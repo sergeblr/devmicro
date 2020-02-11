@@ -1,0 +1,9 @@
+
+description = 'Cafe Menu Rest-app'
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version:'2.2.2.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.2.2.RELEASE'
+  compile project(':service')
+    compile group: 'com.github.javafaker', name: 'javafaker', version:'1.0.1'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.2.2.RELEASE'
+}

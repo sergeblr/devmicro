@@ -1,0 +1,14 @@
+
+description = 'Cafe Menu Web-app Vaadin8'
+dependencies {
+    compile group: 'com.vaadin', name: 'vaadin-spring-boot-starter', version:'3.2.1'
+  compile project(':model')
+  compile project(':service-api')
+    compile group: 'net.bytebuddy', name: 'byte-buddy', version:'1.10.6'
+    compile group: 'org.vaadin.addon', name: 'confirmdialog', version:'3.2.0'
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.2.2.RELEASE') {
+exclude(module: 'junit-vintage-engine')
+    }
+    testCompile group: 'com.github.mvysny.kaributesting', name: 'karibu-testing-v8', version:'1.1.9'
+    compileOnly group: 'com.vaadin', name: 'vaadin-client-compiler', version:'8.9.1'
+}

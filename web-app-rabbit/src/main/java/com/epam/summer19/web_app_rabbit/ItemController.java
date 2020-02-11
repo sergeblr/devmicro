@@ -25,6 +25,9 @@ import reactor.rabbitmq.RpcClient;
 import reactor.rabbitmq.Sender;
 
 import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
 
 
@@ -68,57 +71,85 @@ public class ItemController {
 
     private String feedbackResult;
 
-/*  ### ORIGINAL MICRO*//*
-    @GetMapping(value = "/items")
+/*  ### ORIGINAL MICRO*/
+/*    @GetMapping(value = "/items")
     public final String listAllItems(Model model) {
         LOGGER.debug("ItemController: listAllItems({})", model);
-        *//*RabbitMQ send MSG and wait result*//*
+*//*        RabbitMQ send MSG and wait result*//*
         List<Item> items = (List<Item>) template.convertSendAndReceive(
                 itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
-        *//*itemService.findAll();*//*
+*//*        itemService.findAll();*//*
         model.addAttribute("items", items);
         return "items";
     }*/
 
-    /*  ### ORIGINAL MICRO*/
-    @GetMapping(value = "/items")
-    public final String listAllItems(Model model) {
+
+
+    /*  ### Fluxed Micro */
+/*    @GetMapping(value = "/items")
+    public final String listAllItems(Model model) throws IOException, ClassNotFoundException {
         LOGGER.debug("ItemController: listAllItems({})", model);
-        /*RabbitMQ send MSG and wait result*/
+        *//*RabbitMQ send MSG and wait result*//*
 
         Sender itemsSender = RabbitFlux.createSender();
         RpcClient itemsRpcClient = itemsSender.rpcClient(itemsExchange.getName(), rabbitmqItemsGetAllKey);
         Mono<Delivery> itemsReply = itemsRpcClient.rpc(Mono.just(
                 new RpcClient.RpcRequest("\"msg\"".getBytes())
         ));
+
+*//*        itemsReply.flatMap()
+        Mono<Item> monoItems = (Mono<Item>) itemsReply.map(Delivery::getBody);*//*
+
+*//*        Flux<List<Item>> itemsListFlux = itemsReply.map(Delivery::getBody).flatMapIterable(Flux::fromIterable));*//*
+*//*        Mono<List<Item>> monoItemsList = itemsReply.map();*//*
+
+        model.addAttribute("items", new ReactiveDataDriverContextVariable(itemsReply));
+
         itemsRpcClient.close();
-
-
           //List<Item> items = (List<Item>) template.convertSendAndReceive(
           //        itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg");
-        /*itemService.findAll();*/
+        *//*itemService.findAll();*//*
 
-        model.addAttribute("items", new ReactiveDataDriverContextVariable(
+*//*        model.addAttribute("items", new ReactiveDataDriverContextVariable(
                 itemsReply.map(Delivery).flatMapMany(Flux::fromIterable),
                 1
-        ));
+        ));*//*
         return "items";
-    }
+    }*/
+
 
     /* ### WebFlux'ed */
-/*    @GetMapping(value = "/items")
-    public final Mono<String> listAllItems(Model model) {
+    @GetMapping(value = "/items")
+    public final Mono<String> listAllItems(Model model) throws InterruptedException {
         LOGGER.debug("ItemController: listAllItems({})", model);
-        *//*RabbitMQ send MSG and wait result*//*
+        /* Fake Flux from rabbitMQ returned List of items */
+
+/*        model.addAttribute("items", new ReactiveDataDriverContextVariable(
+                (Flux<List<Item>>) template.convertSendAndReceive(
+                        itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg"),
+                1
+        ));*/
+
         IReactiveDataDriverContextVariable reactiveItems = new ReactiveDataDriverContextVariable(
-                (List<Item>) template.convertSendAndReceive(
-                        itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg"), 1
+                Flux.fromIterable(
+                        (List<Item>) template.convertSendAndReceive(
+                        itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg")
+                ),
+                1
         );
         model.addAttribute("items", reactiveItems);
 
-        AsyncRabbitTemplate
+
+/*        model.addAttribute("items", new ReactiveDataDriverContextVariable(
+                Flux.just(
+                    (List<Item>) template.convertSendAndReceive(
+                            itemsExchange.getName(), rabbitmqItemsGetAllKey, "msg")
+                ).flatMap(Flux::fromIterable),
+                1
+        ));*/
+        Thread.sleep(1);
         return Mono.just("items");
-    }*/
+    }
 
     @GetMapping(value = "/item")
     public final String gotoAddItemPage(Model model) {
