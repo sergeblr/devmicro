@@ -3,4 +3,5 @@ FROM maven:latest
 MAINTAINER sergeblr
 
 COPY . /home/cafemenu
-RUN mvn -f /home/cafemenu/pom.xml clean install
+
+RUN mvn -f /home/cafemenu/pom.xml -DskipTests clean install

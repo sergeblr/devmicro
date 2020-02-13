@@ -1,5 +1,4 @@
 # micro-iteminorders runs under JAVA
-MAINTAINER sergeblr
 
 FROM anapsix/alpine-java
 ADD target/micro-iteminorders-1.0.0-SNAPSHOT.jar /
