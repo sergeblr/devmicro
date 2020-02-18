@@ -15,7 +15,7 @@ public class HomeController {
 
     @GetMapping(value = "/")
     public String defaultPageRedirect() {
-        LOGGER.debug("HomeController: defaultPageRedirect()");
+        LOGGER.debug("HomeController: X defaultPageRedirect()");
         return "redirect:mainpage";
     }
 

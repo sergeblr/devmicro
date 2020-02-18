@@ -1,17 +1,43 @@
-version: '3.3'
+version: '3.7'
 
 services:
 
-# Runs Main dockerfile (mvn clean install)
+# Runs Main dockerfile (mvn clean install) to make image with BUILDED artifacts
   cafemenu:
-   container_name: cafemenu-c
-   image: cafemenu_devm
+#   container_name: cafemenu-mvn-build
+   image: cafemenu_mvn
    volumes:
-    - .$HOME/.m2:/root/.m2
-    - ./dockerbuild:/home/cafemenu
+    - ./docker_m2:/root/.m2
+    - ./docker_devm:/home/cafemenu
+#    - $HOME/.m2:/root/.m2
+#    - ./:/home/cafemenu
    build: .
 
 
+# Micro's:
+  micro-items:
+   container_name: micro-items-c
+   ports:
+    - "8091:8091"
+   depends_on:
+    - cafemenu
+   build: micro-items/
+
+  micro-orders:
+   container_name: micro-orders-c
+   ports:
+    - "8092:8092"
+   depends_on:
+    - cafemenu
+   build: micro-orders/
+
+  micro-iteminorders:
+   container_name: micro-iteminorders-c
+   ports:
+    - "8093:8093"
+   depends_on:
+    - cafemenu
+   build: micro-iteminorders/
 
 # Web-app:
   web-app-rabbit:
@@ -19,34 +45,8 @@ services:
    build: web-app-rabbit/
    ports:
     - "8090:8090"
-#   depends_on:
-#    - micro-items
-#    - micro-orders
-#    - micro-iteminorders
+   depends_on:
+    - micro-items
+    - micro-orders
+    - micro-iteminorders
    network_mode: host
-
-
-# Micro's:
-#  micro-items:
-#   container_name: micro-items-c
-#   build: micro-items/
-#   ports:
-#    - "8091:8091"
-#   depends_on:
-#    - cafemenu
-
-#  micro-orders:
-#   container_name: micro-orders-c
-#   build: micro-orders/
-#   ports:
-#    - "8092:8092"
-#   depends_on:
-#    - cafemenu
-
-#  micro-iteminorders:
-#   container_name: micro-iteminorders-c
-#   build: micro-iteminorders/
-#   ports:
-#    - "8093:8093"
-#   depends_on:
-#    - cafemenu
