@@ -13,16 +13,30 @@ services:
    RABBITMQ_DEFAULT_PASS: M1cr0
   network_mode: host
 
+# MySQL:
+ mysql:
+  image: 'mysql:8.0.19'
+  volumes:
+   - "./docker_mysql:/var/lib.mysql"
+  restart: always
+  ports:
+   - "3306:3306"
+  environment:
+   MYSQL_ROOT_PASSWORD: mysqlxpwd4
+   MYSQL_DATABASE: cmdb
+   MYSQL_USER: muser
+   MYSQL_PASSWORD: mysqlxpwd4
+  network_mode: host
+
+
 # Cafemenu MVN Build JAR's
  cafemenu:
-#   container_name: cafemenu-mvn-build
   image: cafemenu_mvn
   volumes:
    - ./docker_m2:/root/.m2
    - ./docker_devm:/home/cafemenu
-#    - $HOME/.m2:/root/.m2
-#    - ./:/home/cafemenu
   build: .
+
 
 # Micro-services:
  micro-items:
@@ -31,6 +45,8 @@ services:
    - "8091:8091"
   depends_on:
    - cafemenu
+   - mysql
+   - rabbitmq
   build: micro-items/
   network_mode: host
 
@@ -40,6 +56,8 @@ services:
    - "8092:8092"
   depends_on:
    - cafemenu
+   - mysql
+   - rabbitmq
   build: micro-orders/
   network_mode: host
 
@@ -49,6 +67,8 @@ services:
    - "8093:8093"
   depends_on:
    - cafemenu
+   - mysql
+   - rabbitmq
   build: micro-iteminorders/
   network_mode: host
 

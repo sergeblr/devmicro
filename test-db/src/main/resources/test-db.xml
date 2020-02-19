@@ -24,7 +24,7 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://86.57.176.80:3306/cmdb"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/cmdb"/>
         <property name="username" value="muser"/>
         <property name="password" value="mysqlxpwd4"/>
     </bean>
