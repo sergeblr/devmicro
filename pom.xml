@@ -60,6 +60,7 @@
       <spring.webflux>2.2.4.RELEASE</spring.webflux>
       <rabbitmq>2.2.4.RELEASE</rabbitmq>
       <mysql.version>8.0.18</mysql.version>
+
    </properties>
 
    <dependencyManagement>
@@ -185,7 +186,7 @@
    <build>
       <pluginManagement>
          <plugins>
-            <plugin>
+            <!--<plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-surefire-plugin</artifactId>
                <version>${maven-surefire-plugin.version}</version>
@@ -244,11 +245,33 @@
                <groupId>org.eluder.coveralls</groupId>
                <artifactId>coveralls-maven-plugin</artifactId>
                <version>4.3.0</version>
-            </plugin>
+            </plugin>-->
          </plugins>
       </pluginManagement>
       <plugins>
-         <plugin>
+<!--         <plugin>
+            <groupId>de.qaware.maven</groupId>
+            <artifactId>go-offline-maven-plugin</artifactId>
+            <version>1.2.5</version>
+            <configuration>
+               <dynamicDependencies>
+                  <DynamicDependency>
+                     <groupId>org.apache.maven.surefire</groupId>
+                     <artifactId>surefire-junit4</artifactId>
+                     <version>2.20.1</version>
+                     <repositoryType>PLUGIN</repositoryType>
+                  </DynamicDependency>
+                  <DynamicDependency>
+                     <groupId>com.querydsl</groupId>
+                     <artifactId>querydsl-apt</artifactId>
+                     <version>4.2.1</version>
+                     <classifier>jpa</classifier>
+                     <repositoryType>MAIN</repositoryType>
+                  </DynamicDependency>
+               </dynamicDependencies>
+            </configuration>
+         </plugin>-->
+         <!--<plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
@@ -346,11 +369,11 @@
          <plugin>
             <groupId>org.eluder.coveralls</groupId>
             <artifactId>coveralls-maven-plugin</artifactId>
-         </plugin>
+         </plugin>-->
       </plugins>
    </build>
 
-   <reporting>
+<!--   <reporting>
       <plugins>
          <plugin>
             <groupId>org.jacoco</groupId>
@@ -411,7 +434,7 @@
             <artifactId>coveralls-maven-plugin</artifactId>
          </plugin>
       </plugins>
-   </reporting>
+   </reporting>-->
 
 
 </project>
