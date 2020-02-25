@@ -1,7 +1,6 @@
 package com.epam.summer19.web_app_rabbit.validators;
 
 import com.epam.summer19.model.Item;
-import com.epam.summer19.service.ItemService;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import java.util.regex.Pattern;
 
 @Component
 public class ItemValidator implements Validator {

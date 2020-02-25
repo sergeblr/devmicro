@@ -24,7 +24,7 @@
       <module>service</module>
       <module>service-api</module>
       <module>test-db</module>
-      <module>rest-app</module>
+      <!--<module>rest-app</module>-->
       <module>web-app</module>
       <!--<module>web-app-vdn8</module>-->
       <!--<module>web-app-ngjs</module>-->
@@ -62,9 +62,10 @@
       <jacoco.version>0.8.2</jacoco.version>
       <jacoco.bundle.coveredratio.minimum>0%</jacoco.bundle.coveredratio.minimum>
       <!-- Vaadin -->
-      <vaadin.version>8.9.1</vaadin.version>
+      <!--<vaadin.version>8.9.1</vaadin.version>-->
       <spring.webflux>2.2.4.RELEASE</spring.webflux>
       <rabbitmq>2.2.4.RELEASE</rabbitmq>
+      <mysql.version>8.0.18</mysql.version>
    </properties>
 
    <dependencyManagement>
@@ -95,6 +96,11 @@
          <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <version>${spring.boot.ver}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
             <version>${spring.boot.ver}</version>
          </dependency>
          <dependency>
@@ -165,15 +171,19 @@
             <version>${project.version}</version>
          </dependency>
 
-         <dependency>
+<!--         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.199</version>
+         </dependency>-->
+         <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
          </dependency>
 
       </dependencies>
    </dependencyManagement>
-
 
 
    <build>

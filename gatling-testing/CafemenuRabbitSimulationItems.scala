@@ -25,8 +25,7 @@ class CafemenuRabbitSimItems extends Simulation {
 	val scn_repeats = 1		// Number of scenario repeats
 	val setup_users_start_rate = 10	// MIN users INJECTED in ONE second
 	val setup_users_end_rate = 50		// MAX users INJECTED in ONE second
-	val setup_duration = 30
-	// Total duration in seconds
+	val setup_duration = 30  	// Total duration in seconds
 
 
 
@@ -76,7 +75,25 @@ class CafemenuRabbitSimItems extends Simulation {
 				// Loading Items...
 				.exec(http("request_items")
 					.get("/items")
+  				.check(css("a:contains('#deleteDialog')", "data-id").findRandom.saveAs("updatableItemId"))
 					.headers(headers_0))
+				.pause(pause_time milliseconds)
+
+			// <a href="#" data-toggle="modal" class="btn btn-sm btn-danger" data-target="#deleteDialog" data-id="4" data-name="Coffee">
+
+				// Find item by name & edit them price
+  			.exec(http("request_GotoUpdatebleItemPage")
+				 .get("/item/${updatableItemId}")
+				 .check(css("#field_itemName", "value").saveAs("updatableItemName")))
+  			.pause(pause_time milliseconds)
+
+				.exec(http("request_UpdateItem")
+					.post("/item/${updatableItemId}")
+					.headers(headers_2)
+					//.formParam("itemId", "")
+					.formParam("itemName", "${updatableItemName}")
+					.formParam("itemPrice", "${rand_item_price} + ThreadLocalRandom.current.nextInt(endNum)")
+				)
 				.pause(pause_time milliseconds)
 
 		}

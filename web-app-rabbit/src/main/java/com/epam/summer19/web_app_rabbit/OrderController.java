@@ -5,7 +5,6 @@ import com.epam.summer19.dto.DateTimeFilterDTO;
 import com.epam.summer19.model.ItemInOrder;
 import com.epam.summer19.model.Order;
 import com.epam.summer19.service.ItemInOrderService;
-import com.epam.summer19.service.ItemService;
 import com.epam.summer19.service.OrderService;
 import com.epam.summer19.web_app_rabbit.validators.DateTimeFilterDTOValidator;
 import com.epam.summer19.web_app_rabbit.validators.OrderValidator;
