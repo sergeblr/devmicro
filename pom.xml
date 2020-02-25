@@ -24,10 +24,6 @@
       <module>service</module>
       <module>service-api</module>
       <module>test-db</module>
-      <!--<module>rest-app</module>-->
-      <module>web-app</module>
-      <!--<module>web-app-vdn8</module>-->
-      <!--<module>web-app-ngjs</module>-->
       <module>micro-items</module>
       <module>micro-orders</module>
       <module>micro-iteminorders</module>
@@ -61,8 +57,6 @@
       <checkstyle.version>8.22</checkstyle.version>
       <jacoco.version>0.8.2</jacoco.version>
       <jacoco.bundle.coveredratio.minimum>0%</jacoco.bundle.coveredratio.minimum>
-      <!-- Vaadin -->
-      <!--<vaadin.version>8.9.1</vaadin.version>-->
       <spring.webflux>2.2.4.RELEASE</spring.webflux>
       <rabbitmq>2.2.4.RELEASE</rabbitmq>
       <mysql.version>8.0.18</mysql.version>
@@ -124,20 +118,6 @@
             <version>${spring.webflux}</version>
          </dependency>
 
-         <!-- Vaadin -->
-<!--         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-bom</artifactId>
-            <version>${vaadin.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <dependency>
-            <groupId>com.github.mvysny.kaributesting</groupId>
-            <artifactId>karibu-testing-v8</artifactId>
-            <version>1.1.9</version>
-            <scope>test</scope>
-         </dependency>-->
 
          <!-- My modules -->
          <dependency>
@@ -171,11 +151,27 @@
             <version>${project.version}</version>
          </dependency>
 
-<!--         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.199</version>
-         </dependency>-->
+         <dependency>
+            <groupId>com.epam.summer19</groupId>
+            <artifactId>micro-items</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.epam.summer19</groupId>
+            <artifactId>micro-iteminorders</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.epam.summer19</groupId>
+            <artifactId>micro-orders</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.epam.summer19</groupId>
+            <artifactId>web-app-rabbit</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+
          <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -353,40 +349,6 @@
          </plugin>
       </plugins>
    </build>
-
-
-    <!-- Spring Boot insrtd, added milestones for 2.2.0.RC1 !!! -->
-    <repositories>
-       <!-- Main Maven repository (order matters!) - inserted from Vaadin pom -->
-       <repository>
-          <id>central</id>
-          <url>https://repo.maven.apache.org/maven2</url>
-          <snapshots>
-             <enabled>false</enabled>
-          </snapshots>
-       </repository>
-         <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-         </repository>
-       <!-- Vaadin addons -->
-<!--         <repository>
-            <id>Vaadin Directory</id>
-            <url>https://maven.vaadin.com/vaadin-addons</url>
-            <snapshots>
-               <enabled>false</enabled>
-            </snapshots>
-         </repository>-->
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </pluginRepository>
-    </pluginRepositories>
-
 
    <reporting>
       <plugins>
