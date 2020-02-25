@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
 
-# RabbitMQ:
+# RabbitMQ server container with user/password:
  rabbitmq:
   image: 'rabbitmq:3.7-management-alpine'
   ports:
@@ -13,7 +13,7 @@ services:
    RABBITMQ_DEFAULT_PASS: M1cr0
   network_mode: host
 
-# MySQL:
+# MySQL server container with usr/pwd/db:
  mysql:
   image: 'mysql:8.0.19'
   volumes:
@@ -29,7 +29,7 @@ services:
   network_mode: host
 
 
-# Cafemenu MVN Build JAR's
+# Cafemenu MVN Build JAR's (runs root Dockerfile)
  cafemenu:
   image: cafemenu_mvn
   volumes:
@@ -38,7 +38,7 @@ services:
   build: .
 
 
-# Micro-services:
+# Micro-services (runs each service Dockerfile):
  micro-items:
   container_name: micro-items-c
   ports:
@@ -72,7 +72,7 @@ services:
   build: micro-iteminorders/
   network_mode: host
 
-# Web-app:
+# Web-app service:
  web-app-rabbit:
   container_name: web-app-rabbit-c
   build: web-app-rabbit/
