@@ -41,7 +41,7 @@ public class ItemsRabbitConsumer {
 
     @RabbitListener(queues = "#{itemsQueueAdd.getName()}")
     public String itemsAdd(Item item) {
-        LOGGER.debug("ItemsRabbitConsumer: Add item: {} 1", item);
+        LOGGER.debug("ItemsRabbitConsumer: Add item: {}", item);
         try {
             itemService.add(item);
             LOGGER.debug("ItemsRabbitConsumer: Successfully");
