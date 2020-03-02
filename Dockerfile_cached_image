@@ -1,0 +1,7 @@
+# CafeMenu image file with CACHED dependencies
+FROM maven:3.6.3-jdk-8-slim
+MAINTAINER sergeblr
+WORKDIR /home/cafemenu
+
+COPY . .
+RUN mvn -f pom.xml de.qaware.maven:go-offline-maven-plugin:1.2.5:resolve-dependencies

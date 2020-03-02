@@ -29,23 +29,16 @@ services:
   network_mode: host
 
 
-# Cafemenu MVN Build JAR's (runs root Dockerfile)
- cafemenu_cached:
-  image: cafemenu_cached_img
-  build: .
-  dockerfile: Dockerfile_cached_image
-
+# Cafemenu MVN Build JAR's (runs root Dockerfile_CachedDeps)
  cafemenu:
   image: cafemenu_mvn
 #  volumes:
 #   - ./docker_m2:/root/.m2
 #   - ./docker_devm:/home/cafemenu
   build: .
-  depends_on:
-   - cafemenu_cached
 
 
-   # Micro-services (runs each service Dockerfile):
+# Micro-services (runs each service Dockerfile_CachedDeps):
  micro-items:
   container_name: micro-items-c
   ports:
