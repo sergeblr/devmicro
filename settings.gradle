@@ -1,0 +1,22 @@
+rootProject.name = 'cafemenu'
+include ':model'
+include ':dao'
+include ':dao-api'
+include ':service'
+include ':service-api'
+include ':test-db'
+include ':micro-items'
+include ':micro-orders'
+include ':micro-iteminorders'
+include ':web-app-rabbit'
+
+project(':model').projectDir = "$rootDir/model" as File
+project(':dao').projectDir = "$rootDir/dao" as File
+project(':dao-api').projectDir = "$rootDir/dao-api" as File
+project(':service').projectDir = "$rootDir/service" as File
+project(':service-api').projectDir = "$rootDir/service-api" as File
+project(':test-db').projectDir = "$rootDir/test-db" as File
+project(':micro-items').projectDir = "$rootDir/micro-items" as File
+project(':micro-orders').projectDir = "$rootDir/micro-orders" as File
+project(':micro-iteminorders').projectDir = "$rootDir/micro-iteminorders" as File
+project(':web-app-rabbit').projectDir = "$rootDir/web-app-rabbit" as File

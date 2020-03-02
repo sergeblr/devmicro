@@ -32,9 +32,9 @@ services:
 # Cafemenu MVN Build JAR's (runs root Dockerfile)
  cafemenu:
   image: cafemenu_mvn
-  volumes:
-   - ./docker_m2:/root/.m2
-   - ./docker_devm:/home/cafemenu
+#  volumes:
+#   - ./docker_m2:/root/.m2
+#   - ./docker_devm:/home/cafemenu
   build: .
 
 
@@ -49,6 +49,7 @@ services:
    - rabbitmq
   build: micro-items/
   network_mode: host
+  restart: always
 
  micro-orders:
   container_name: micro-orders-c
@@ -60,6 +61,7 @@ services:
    - rabbitmq
   build: micro-orders/
   network_mode: host
+  restart: always
 
  micro-iteminorders:
   container_name: micro-iteminorders-c
@@ -71,6 +73,7 @@ services:
    - rabbitmq
   build: micro-iteminorders/
   network_mode: host
+  restart: always
 
 # Web-app service:
  web-app-rabbit:
@@ -83,3 +86,4 @@ services:
    - micro-orders
    - micro-iteminorders
   network_mode: host
+  restart: always
