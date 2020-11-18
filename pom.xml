@@ -148,6 +148,7 @@
             <version>${project.version}</version>
          </dependency>
 
+
          <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -156,11 +157,16 @@
 
          <!-- Camel -->
          <dependency>
+            <groupId>com.epam.summer19</groupId>
+            <artifactId>camel-term</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+
+         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-bom</artifactId>
             <version>${camel.version}</version>
             <type>pom</type>
-            <scope>import</scope>
          </dependency>
 
       </dependencies>
