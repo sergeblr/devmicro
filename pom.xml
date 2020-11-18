@@ -28,6 +28,7 @@
       <module>web-app</module>
       <module>web-app-vdn8</module>
       <module>web-app-ngjs</module>
+      <module>camel-term</module>
    </modules>
 
    <distributionManagement>
@@ -59,6 +60,8 @@
       <jacoco.bundle.coveredratio.minimum>0%</jacoco.bundle.coveredratio.minimum>
       <!-- Vaadin -->
       <vaadin.version>8.9.1</vaadin.version>
+      <!-- Camel -->
+      <version>3.6.0</version>
    </properties>
 
    <dependencyManagement>
@@ -149,6 +152,15 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.199</version>
+         </dependency>
+
+         <!-- Camel -->
+         <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-bom</artifactId>
+            <version>${camel.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
          </dependency>
 
       </dependencies>
